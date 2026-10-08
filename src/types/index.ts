@@ -76,6 +76,8 @@ export interface Specialty {
   icon: IconName;
   tone: Tone;
   image: ImageAsset;
+  /** Optional dedicated image for the specialty page hero ("Specialty Experience"); falls back to `image`. */
+  heroImage?: ImageAsset;
   module: SpecialtyModule;
   /** Labels used for the quick-action strip on the specialty hero */
   quickActions: { label: string; icon: IconName }[];

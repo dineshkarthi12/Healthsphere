@@ -18,6 +18,7 @@ export const specialties: Specialty[] = [
     icon: "Eye",
     tone: { color: "#1d8fe0", tint: "#e6f3fd", ink: "#0d68a8" },
     image: { name: "eye-care-specialty", alt: "Ophthalmologist explaining an anatomical eye model beside a slit lamp and vision chart", focus: "40% 30%" },
+    heroImage: { name: "eye-care-experience", alt: "Close-up of a clear blue eye with soft light", focus: "75% 42%" },
     module: "vision-profile",
     quickActions: [
       { label: "Vision Test", icon: "Eye" },
@@ -75,6 +76,7 @@ export const specialties: Specialty[] = [
     icon: "Heart",
     tone: { color: "#e5484d", tint: "#fdeced", ink: "#b42a33" },
     image: { name: "heart-care-specialty", alt: "Cardiologist holding an anatomical heart model beside a cardiac monitor", focus: "55% 35%" },
+    heroImage: { name: "heart-care-experience", alt: "Illustration of a human heart beside a heartbeat line", focus: "70% 55%" },
     module: "heart-overview",
     quickActions: [
       { label: "ECG", icon: "Activity" },

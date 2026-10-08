@@ -127,7 +127,7 @@ export function SpecialtyPage() {
               </dl>
             </div>
             <div className="order-1 overflow-hidden rounded-3xl bg-white shadow-raised lg:order-2">
-              <SmartImage image={spec.image} priority sizes="(min-width: 1024px) 55vw, 100vw" className="aspect-[3/2] w-full" />
+              <SmartImage image={spec.heroImage ?? spec.image} priority sizes="(min-width: 1024px) 55vw, 100vw" className="aspect-[3/2] w-full" />
             </div>
           </div>
 

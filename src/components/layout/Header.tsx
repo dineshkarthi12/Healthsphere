@@ -76,7 +76,7 @@ export function Header() {
             className="hidden h-11 items-center gap-2 rounded-full border border-line bg-canvas pr-2 pl-3.5 text-small text-ink-500 transition-colors hover:border-line-strong hover:text-ink-700 xl:inline-flex"
           >
             <Search className="size-4" aria-hidden="true" />
-            <span className="w-28 text-left">Search…</span>
+            <span className="w-24 text-left">Search…</span>
             <kbd className="rounded border border-line bg-white px-1.5 py-0.5 font-sans text-caption text-ink-500">⌘K</kbd>
           </button>
           <Button variant="ghost" size="icon" className="xl:hidden" onClick={openSearch} aria-label="Search">
