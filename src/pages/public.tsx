@@ -11,6 +11,8 @@ import {
   ChevronDown,
   Clock,
   Compass,
+  Eye,
+  EyeOff,
   HeartHandshake,
   HeartPulse,
   Lock,
@@ -34,8 +36,7 @@ import { currentPatient } from "@/data/patient";
 import { DoctorMiniCard } from "@/components/doctors/DoctorCard";
 import { Disclaimer, EmptyState, Field, IconTile, Input, SearchBar, SectionHeader, Select, SmartImage, Textarea } from "@/components/ui/primitives";
 import { Button, ButtonLink } from "@/components/ui/Button";
-import { useToast } from "@/components/ui/overlays";
-import { Logo } from "@/components/ui/Logo";
+import { Modal, useToast } from "@/components/ui/overlays";
 import { useAppState } from "@/lib/store";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { cn, imageSrc, imageSrcSet } from "@/lib/utils";
@@ -428,21 +429,73 @@ export function ContactPage() {
 /* =========================================================================
    Auth (prototype)
    ========================================================================= */
+const trustPoints = [
+  { icon: Lock, title: "Private by design", text: "Your records are encrypted and shared only with your consent." },
+  { icon: ShieldCheck, title: "You stay in control", text: "See who viewed your records and revoke access anytime." },
+  { icon: HeartHandshake, title: "Never sold, never used for ads", text: "Your health data is used only for your care." },
+];
+
+function GoogleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5" aria-hidden="true">
+      <path fill="#4285F4" d="M22.6 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-1.9 3.3-4.8 3.3-8z" />
+      <path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.6-2.7c-1 .7-2.2 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.5H2.1v2.8A11 11 0 0 0 12 23z" />
+      <path fill="#FBBC05" d="M5.8 14.2a6.6 6.6 0 0 1 0-4.3V7.1H2.1a11 11 0 0 0 0 9.9l3.7-2.8z" />
+      <path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2A11 11 0 0 0 2.1 7.1l3.7 2.8C6.7 7.3 9.1 5.4 12 5.4z" />
+    </svg>
+  );
+}
+
 function AuthShell({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
   return (
-    <div className="container-page grid min-h-[75vh] items-center gap-10 py-10 lg:grid-cols-2">
+    <div className="container-page grid gap-10 py-8 sm:py-12 lg:grid-cols-2 lg:items-center">
       <div className="mx-auto w-full max-w-md">
-        <Logo className="mb-6" />
-        <h1 className="t-h1">{title}</h1>
-        <p className="mt-2 text-ink-500">{subtitle}</p>
-        <div className="mt-6">{children}</div>
+        <div className="card p-6 sm:p-8">
+          <h1 className="t-h2">{title}</h1>
+          <p className="mt-1.5 text-ink-500">{subtitle}</p>
+          <div className="mt-6">{children}</div>
+        </div>
+        <ul className="mt-6 space-y-3 lg:hidden" aria-label="Why patients trust HealthSphere">
+          {trustPoints.map(({ icon: Icon, title: t, text }) => (
+            <li key={t} className="flex items-start gap-3 text-small">
+              <Icon className="mt-0.5 size-4.5 shrink-0 text-success-700" aria-hidden="true" />
+              <span><strong className="font-semibold text-ink-900">{t}.</strong> <span className="text-ink-600">{text}</span></span>
+            </li>
+          ))}
+        </ul>
       </div>
-      <div className="relative hidden aspect-[4/3.2] overflow-hidden rounded-3xl bg-gradient-to-b from-primary-50 to-primary-100 lg:block">
-        <img src={imageSrc("doctor-health-app", 1024)} srcSet={imageSrcSet("doctor-health-app")} sizes="45vw" alt="A doctor showing the HealthSphere app on her phone" width={1536} height={1024} className="absolute inset-0 size-full object-cover object-[55%_20%]" />
+      <div className="relative hidden overflow-hidden rounded-3xl bg-gradient-to-b from-primary-50 to-primary-100 lg:block">
+        <img src={imageSrc("doctor-health-app", 1024)} srcSet={imageSrcSet("doctor-health-app")} sizes="45vw" alt="A doctor showing the HealthSphere app on her phone" width={1536} height={1024} className="aspect-[4/3.6] w-full object-cover object-[55%_20%]" />
+        <ul className="absolute inset-x-5 bottom-5 space-y-2.5 rounded-2xl border border-line bg-white/95 p-5 shadow-raised backdrop-blur" aria-label="Why patients trust HealthSphere">
+          {trustPoints.map(({ icon: Icon, title: t, text }) => (
+            <li key={t} className="flex items-start gap-3">
+              <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg bg-success-50 text-success-700"><Icon className="size-4.5" aria-hidden="true" /></span>
+              <span><span className="block text-small font-semibold text-ink-900">{t}</span><span className="block text-caption text-ink-600">{text}</span></span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
+
+function PasswordField({ value, onChange, error, label = "Password", autoComplete, hint }: { value: string; onChange: (v: string) => void; error?: string; label?: string; autoComplete: string; hint?: string }) {
+  const [show, setShow] = useState(false);
+  return (
+    <Field label={label} required error={error} hint={hint}>
+      {(p) => (
+        <div className="relative">
+          <Input {...p} type={show ? "text" : "password"} value={value} onChange={(e) => onChange(e.target.value)} autoComplete={autoComplete} className="pr-12" />
+          <button type="button" onClick={() => setShow((s) => !s)} aria-pressed={show} aria-label={show ? "Hide password" : "Show password"} className="absolute top-1/2 right-1 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-md text-ink-500 hover:bg-subtle hover:text-ink-800">
+            {show ? <EyeOff className="size-4.5" aria-hidden="true" /> : <Eye className="size-4.5" aria-hidden="true" />}
+          </button>
+        </div>
+      )}
+    </Field>
+  );
+}
+
+const ID_RE = /^(\+?\d[\d\s-]{9,14}|\S+@\S+\.\S+)$/;
 
 export function LoginPage() {
   useDocumentTitle("Login");
@@ -451,35 +504,79 @@ export function LoginPage() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const [id, setId] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const finish = () => { signIn(); toast({ title: "Welcome back, Priya", description: "Signed in to the demo account." }); navigate(params.get("next") ?? "/"); };
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState<{ id?: string; password?: string; form?: string }>({});
+  const [loading, setLoading] = useState<"form" | "google" | null>(null);
+  const [forgot, setForgot] = useState(false);
+  const dest = params.get("next") ?? "/dashboard";
+  const finish = (how: string) => {
+    signIn();
+    toast({ title: "Welcome back, Priya", description: how });
+    navigate(dest);
+  };
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!otpSent) {
-      if (!/^(\+?\d[\d\s]{9,14}|\S+@\S+\.\S+)$/.test(id.trim())) { setError("Enter a valid mobile number or email."); return; }
-      setLoading(true);
-      window.setTimeout(() => { setLoading(false); setOtpSent(true); setError(""); toast({ kind: "info", title: "OTP sent", description: "Demo: use any 6 digits." }); }, 700);
-    } else {
-      if (!/^\d{6}$/.test(otp)) { setError("Enter the 6-digit code."); return; }
-      setLoading(true);
-      window.setTimeout(finish, 600);
-    }
+    const er: typeof errors = {};
+    if (!ID_RE.test(id.trim())) er.id = "Enter a valid email address or 10-digit mobile number.";
+    if (password.length < 6) er.password = "Enter your password (at least 6 characters).";
+    setErrors(er);
+    if (Object.keys(er).length) return;
+    setLoading("form");
+    window.setTimeout(() => finish("Signed in to the demo account."), 700);
   };
   return (
     <AuthShell title="Welcome back" subtitle="Sign in to your appointments, records and care journeys.">
+      <Button variant="outline" size="lg" block loading={loading === "google"} onClick={() => { setLoading("google"); window.setTimeout(() => finish("Signed in with Google (demo)."), 700); }}>
+        {loading !== "google" && <GoogleIcon />} Continue with Google
+      </Button>
+      <div className="my-5 flex items-center gap-3 text-caption text-ink-500"><span className="h-px flex-1 bg-line" />or sign in with email<span className="h-px flex-1 bg-line" /></div>
       <form noValidate onSubmit={submit} className="space-y-4">
-        <Field label="Mobile number or email" required error={!otpSent ? error : undefined}>{(p) => <Input {...p} value={id} onChange={(e) => { setId(e.target.value); setError(""); }} autoComplete="username" disabled={otpSent} />}</Field>
-        {otpSent && <Field label="One-time code" required error={error} hint={`Sent to ${id}`}>{(p) => <Input {...p} value={otp} onChange={(e) => { setOtp(e.target.value.replace(/\D/g, "").slice(0, 6)); setError(""); }} inputMode="numeric" autoComplete="one-time-code" autoFocus />}</Field>}
-        <Button type="submit" size="lg" block loading={loading}>{otpSent ? "Verify & sign in" : "Send OTP"}</Button>
+        <Field label="Email or mobile number" required error={errors.id}>{(p) => <Input {...p} value={id} onChange={(e) => { setId(e.target.value); setErrors((x) => ({ ...x, id: undefined })); }} autoComplete="username" inputMode="email" />}</Field>
+        <PasswordField value={password} onChange={(v) => { setPassword(v); setErrors((x) => ({ ...x, password: undefined })); }} error={errors.password} autoComplete="current-password" />
+        <div className="flex justify-end">
+          <button type="button" onClick={() => setForgot(true)} className="inline-flex min-h-11 items-center text-small font-semibold text-primary-700 hover:underline sm:min-h-0">Forgot password?</button>
+        </div>
+        <Button type="submit" size="lg" block loading={loading === "form"}>Login</Button>
       </form>
-      <div className="my-5 flex items-center gap-3 text-caption text-ink-500"><span className="h-px flex-1 bg-line" />or<span className="h-px flex-1 bg-line" /></div>
-      <Button variant="outline" size="lg" block onClick={finish}>Continue with demo account</Button>
+      <Button variant="ghost" block className="mt-2" onClick={() => finish("Signed in to the demo account.")}>Continue with demo account</Button>
       <p className="mt-6 text-center text-small text-ink-600">New to HealthSphere? <Link to="/signup" className="font-semibold text-primary-700 underline">Create an account</Link></p>
-      <p className="mt-3 flex items-center justify-center gap-1.5 text-caption text-ink-500"><Lock className="size-3.5" aria-hidden="true" />Prototype — no real accounts or data.</p>
+      <ForgotPasswordDialog open={forgot} onOpenChange={setForgot} initial={id} />
     </AuthShell>
+  );
+}
+
+function ForgotPasswordDialog({ open, onOpenChange, initial }: { open: boolean; onOpenChange: (o: boolean) => void; initial: string }) {
+  const [value, setValue] = useState(initial);
+  const [error, setError] = useState("");
+  const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+  return (
+    <Modal
+      open={open}
+      onOpenChange={(o) => { onOpenChange(o); if (o) { setValue(initial); setState("idle"); setError(""); } }}
+      title="Reset your password"
+      description="We'll send a secure reset link to your email or mobile."
+      size="sm"
+      footer={state === "sent" ? <Button onClick={() => onOpenChange(false)}>Back to login</Button> : (
+        <>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button loading={state === "sending"} onClick={() => {
+            if (!ID_RE.test(value.trim())) { setError("Enter a valid email address or 10-digit mobile number."); return; }
+            setError("");
+            setState("sending");
+            window.setTimeout(() => setState("sent"), 800);
+          }}>Send reset link</Button>
+        </>
+      )}
+    >
+      {state === "sent" ? (
+        <p role="status" className="flex items-start gap-2 rounded-xl bg-success-50 p-4 text-small text-ink-800">
+          <CheckCircle2 className="mt-0.5 size-4.5 shrink-0 text-success-700" aria-hidden="true" />
+          If an account exists for {value.trim()}, you'll receive a reset link within a few minutes. The link expires in 30 minutes.
+        </p>
+      ) : (
+        <Field label="Email or mobile number" required error={error}>{(p) => <Input {...p} value={value} onChange={(e) => { setValue(e.target.value); setError(""); }} autoComplete="username" />}</Field>
+      )}
+    </Modal>
   );
 }
 
@@ -488,33 +585,52 @@ export function SignupPage() {
   const { signIn } = useAppState();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [f, setF] = useState({ name: "", phone: "", email: "", consent: false });
+  const [f, setF] = useState({ name: "", id: "", password: "", consent: false });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<"form" | "google" | null>(null);
+  const checks = [
+    { label: "At least 8 characters", ok: f.password.length >= 8 },
+    { label: "A letter and a number", ok: /[a-z]/i.test(f.password) && /\d/.test(f.password) },
+  ];
+  const finish = (how: string) => { signIn(); toast({ title: "Account created", description: how }); navigate("/dashboard"); };
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const er: Record<string, string> = {};
     if (f.name.trim().length < 2) er.name = "Enter your full name.";
-    if (!/^\+?\d[\d\s]{9,14}$/.test(f.phone.trim())) er.phone = "Enter a valid 10-digit mobile number.";
-    if (f.email && !/^\S+@\S+\.\S+$/.test(f.email)) er.email = "Enter a valid email or leave it blank.";
+    if (!ID_RE.test(f.id.trim())) er.id = "Enter a valid email address or 10-digit mobile number.";
+    if (!checks.every((c) => c.ok)) er.password = "Choose a password with at least 8 characters, including a letter and a number.";
     if (!f.consent) er.consent = "Please accept the terms and privacy policy to continue.";
     setErrors(er);
     if (Object.keys(er).length) return;
-    setLoading(true);
-    window.setTimeout(() => { signIn(); toast({ title: "Account created", description: "For this demo you're signed in to Priya's sample account." }); navigate("/"); }, 800);
+    setLoading("form");
+    window.setTimeout(() => finish("For this demo you're signed in to Priya's sample account."), 800);
   };
   return (
     <AuthShell title="Create your account" subtitle="One place for your specialists, records and care journeys.">
+      <Button variant="outline" size="lg" block loading={loading === "google"} onClick={() => { setLoading("google"); window.setTimeout(() => finish("Signed up with Google (demo)."), 700); }}>
+        {loading !== "google" && <GoogleIcon />} Continue with Google
+      </Button>
+      <div className="my-5 flex items-center gap-3 text-caption text-ink-500"><span className="h-px flex-1 bg-line" />or sign up with email<span className="h-px flex-1 bg-line" /></div>
       <form noValidate onSubmit={submit} className="space-y-4">
         <Field label="Full name" required error={errors.name}>{(p) => <Input {...p} value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} autoComplete="name" />}</Field>
-        <Field label="Mobile number" required error={errors.phone}>{(p) => <Input {...p} type="tel" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} autoComplete="tel" />}</Field>
-        <Field label="Email" hint="Optional — for reports and receipts" error={errors.email}>{(p) => <Input {...p} type="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} autoComplete="email" />}</Field>
+        <Field label="Email or mobile number" required error={errors.id}>{(p) => <Input {...p} value={f.id} onChange={(e) => setF({ ...f, id: e.target.value })} autoComplete="username" inputMode="email" />}</Field>
+        <div>
+          <PasswordField value={f.password} onChange={(v) => setF({ ...f, password: v })} error={errors.password} autoComplete="new-password" />
+          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1" aria-label="Password requirements">
+            {checks.map((c) => (
+              <li key={c.label} className={cn("inline-flex items-center gap-1.5 text-caption", c.ok ? "text-success-700" : "text-ink-500")}>
+                {c.ok ? <CheckCircle2 className="size-3.5" aria-hidden="true" /> : <span className="size-3.5 rounded-full border border-ink-300" aria-hidden="true" />}
+                {c.label}<span className="sr-only">{c.ok ? " (met)" : " (not met)"}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
         <label className="flex items-start gap-3 rounded-xl bg-subtle p-3.5">
           <input type="checkbox" checked={f.consent} onChange={(e) => setF({ ...f, consent: e.target.checked })} className="mt-0.5 size-4.5 shrink-0 accent-primary-600" aria-invalid={!!errors.consent || undefined} aria-describedby={errors.consent ? "consent-error" : undefined} />
           <span className="text-small text-ink-700">I agree to the <Link to="/about#terms" className="font-semibold text-primary-700 underline">Terms</Link> and <Link to="/about#privacy" className="font-semibold text-primary-700 underline">Privacy policy</Link>, and consent to HealthSphere storing my health information securely.</span>
         </label>
         {errors.consent && <p id="consent-error" role="alert" className="text-small font-medium text-danger-700">{errors.consent}</p>}
-        <Button type="submit" size="lg" block loading={loading}>Create account</Button>
+        <Button type="submit" size="lg" block loading={loading === "form"}>Create Account</Button>
       </form>
       <p className="mt-6 text-center text-small text-ink-600">Already have an account? <Link to="/login" className="font-semibold text-primary-700 underline">Login</Link></p>
     </AuthShell>

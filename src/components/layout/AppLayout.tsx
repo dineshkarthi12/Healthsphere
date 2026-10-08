@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 
 /** Routes that run full-screen on phones (own sticky actions, no tab bar). */
 const immersive = ["/consultation", "/appointments/book"];
+/** Routes that keep the header but drop the patient tab bar on phones. */
+const noTabBar = [...immersive, "/login", "/signup"];
 
 export function SkipLink() {
   return (
@@ -22,6 +24,7 @@ export function SkipLink() {
 export function AppLayout() {
   const { pathname } = useLocation();
   const isImmersive = immersive.some((p) => pathname.startsWith(p));
+  const hideTabBar = noTabBar.some((p) => pathname.startsWith(p));
 
   const prevPath = useRef(pathname);
   useEffect(() => {
@@ -40,15 +43,15 @@ export function AppLayout() {
       <div className={cn(isImmersive && "hidden md:block")}>
         <Header />
       </div>
-      <main id="main" tabIndex={-1} className={cn("flex-1 focus:outline-none", !isImmersive && "pb-20 md:pb-0")}>
+      <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
         <Suspense fallback={<PageSkeleton />}>
           <div key={pathname} className="animate-fade-up">
             <Outlet />
           </div>
         </Suspense>
       </main>
-      {!isImmersive && <Footer />}
-      {!isImmersive && <MobileBottomNav />}
+      {!isImmersive && <Footer withTabBar={!hideTabBar} />}
+      {!hideTabBar && <MobileBottomNav />}
       <ScrollRestoration />
     </div>
     </GlobalSearchProvider>

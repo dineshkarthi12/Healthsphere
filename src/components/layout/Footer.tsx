@@ -3,6 +3,7 @@ import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Youtube } from "luc
 import { Logo } from "@/components/ui/Logo";
 import { specialties } from "@/data/specialties";
 import { StoreBadges } from "@/components/health/StoreBadges";
+import { cn } from "@/lib/utils";
 
 const columns = [
   {
@@ -29,11 +30,11 @@ const columns = [
   },
 ];
 
-export function Footer() {
+export function Footer({ withTabBar = true }: { withTabBar?: boolean }) {
   return (
-    <footer className="mt-auto border-t border-line bg-white pb-24 md:pb-0">
-      <div className="container-page grid gap-10 py-12 md:grid-cols-12 lg:py-16">
-        <div className="md:col-span-4">
+    <footer className={cn("mt-auto border-t border-line bg-white md:pb-0", withTabBar && "pb-20")}>
+      <div className="container-page grid grid-cols-2 gap-x-6 gap-y-10 py-12 md:grid-cols-12 lg:py-16">
+        <div className="col-span-2 md:col-span-4">
           <Logo />
           <p className="mt-4 max-w-xs text-small text-ink-500">Specialized Care. For Every Part of You. Advanced care, expert specialists — personalised for you.</p>
           <ul className="mt-5 space-y-2 text-small text-ink-600">
@@ -43,7 +44,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <nav aria-label="Specialties" className="md:col-span-3">
+        <nav aria-label="Specialties" className="hidden md:col-span-3 md:block">
           <h2 className="t-eyebrow mb-3 text-ink-500">Specialties</h2>
           <ul className="grid grid-cols-2 gap-x-4 gap-y-1 md:grid-cols-1">
             {specialties.slice(0, 8).map((s) => (
@@ -71,7 +72,7 @@ export function Footer() {
           </nav>
         ))}
 
-        <div className="md:col-span-1 md:hidden">
+        <div className="col-span-2 md:hidden">
           <h2 className="t-eyebrow mb-3 text-ink-500">Get the app</h2>
           <StoreBadges />
         </div>
