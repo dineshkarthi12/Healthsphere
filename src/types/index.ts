@@ -75,9 +75,11 @@ export interface Specialty {
   description: string;
   icon: IconName;
   tone: Tone;
+  /** One-line clinical description used on specialty cards */
+  summary: string;
+  /** Key services and conditions shown as chips on specialty cards */
+  highlights: string[];
   image: ImageAsset;
-  /** Optional dedicated image for the specialty page hero ("Specialty Experience"); falls back to `image`. */
-  heroImage?: ImageAsset;
   module: SpecialtyModule;
   /** Labels used for the quick-action strip on the specialty hero */
   quickActions: { label: string; icon: IconName }[];

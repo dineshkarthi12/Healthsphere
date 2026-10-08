@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
   Activity,
   Ambulance,
   ArrowRight,
+  ChevronRight,
   BookOpen,
   CalendarCheck2,
   Clock,
@@ -44,7 +45,7 @@ import { useIsDesktop } from "@/hooks/useMediaQuery";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { useAppState } from "@/lib/store";
 import { getIcon } from "@/lib/icons";
-import { cn, greeting, imageSrc, imageSrcSet } from "@/lib/utils";
+import { formatTime, greeting, imageSrc, imageSrcSet, relativeDay } from "@/lib/utils";
 
 export function HomePage() {
   useDocumentTitle("");
@@ -89,8 +90,18 @@ const stories = [
    Desktop / tablet landing
    ========================================================================= */
 
+const pathway: { label: string; icon: LucideIcon }[] = [
+  { label: "Specialty", icon: Activity },
+  { label: "Specialist", icon: Stethoscope },
+  { label: "Diagnosis", icon: FileText },
+  { label: "Treatment", icon: Pill },
+  { label: "Recovery", icon: ShieldCheck },
+];
+
 function DesktopHome() {
-  const navigate = useNavigate();
+  const { openSearch } = useGlobalSearch();
+  const { signedIn, appointments } = useAppState();
+  const next = appointments.filter((a) => a.status === "upcoming").sort((a, b) => a.date.localeCompare(b.date))[0];
   const [q, setQ] = useState("");
   const featured = doctors.filter((d) => ["ananya-sharma", "arjun-mehta", "divya-raman", "vikram-rao"].includes(d.id));
 
@@ -98,19 +109,38 @@ function DesktopHome() {
     <>
       {/* ------------------------------------------------------------ Hero */}
       <section className="relative overflow-hidden bg-gradient-to-b from-white via-primary-25 to-canvas" aria-labelledby="hero-title">
-        <div aria-hidden="true" className="pointer-events-none absolute -top-40 right-[-10%] size-[46rem] rounded-full bg-[radial-gradient(circle_at_center,#dbe9ff_0%,transparent_65%)]" />
-        <div className="container-page relative grid items-center gap-8 pt-10 lg:grid-cols-[1.05fr_1fr] lg:pt-14">
-          <div className="pb-10 lg:pb-16">
-            <p className="inline-flex items-center gap-2 rounded-full border border-primary-100 bg-white px-3 py-1.5 text-small font-semibold text-primary-700 shadow-xs">
-              <span className="size-2 rounded-full bg-success-500" aria-hidden="true" />
-              Specialized Care. For Every Part of You.
-            </p>
+        <div aria-hidden="true" className="pointer-events-none absolute -top-48 right-[-12%] size-[48rem] rounded-full bg-[radial-gradient(circle_at_center,#dbe9ff_0%,transparent_65%)]" />
+        <div className="container-page relative grid items-center gap-8 pt-10 lg:grid-cols-[1.05fr_1fr] lg:pt-12">
+          <div className="max-w-2xl pb-12 lg:pb-16">
+            {signedIn && next ? (
+              <Link to="/dashboard" className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-primary-100 bg-white py-1.5 pr-3 pl-1.5 text-small font-semibold text-ink-800 shadow-xs hover:border-primary-300">
+                <Avatar initials={currentPatient.initials} name={currentPatient.name} size={28} />
+                Welcome back, {currentPatient.firstName} · <span className="font-medium text-ink-600">{relativeDay(next.date)}, {formatTime(next.date)}</span>
+                <ArrowRight className="size-4 text-primary-600 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+              </Link>
+            ) : (
+              <p className="inline-flex items-center gap-2 rounded-full border border-primary-100 bg-white px-3 py-1.5 text-small font-semibold text-primary-700 shadow-xs">
+                <span className="size-2 rounded-full bg-success-500" aria-hidden="true" />
+                Specialized Care. For Every Part of You.
+              </p>
+            )}
             <h1 id="hero-title" className="t-display mt-5 max-w-xl">
               Advanced Care for a <span className="text-primary-600">Healthier You.</span>
             </h1>
-            <p className="mt-5 max-w-lg text-lead text-ink-600">
-              From everyday checkups to complex treatments, HealthSphere connects you with specialized care, trusted specialists, advanced diagnostics and continuous support.
-            </p>
+            <p className="mt-4 text-lead font-medium text-ink-700">Advanced care. Expert specialists. Personalized for you.</p>
+
+            <ol className="mt-6 flex flex-wrap items-center gap-x-1.5 gap-y-2" aria-label="How care works on HealthSphere">
+              {pathway.map(({ label, icon: Icon }, i) => (
+                <li key={label} className="flex items-center gap-1.5 text-caption font-semibold text-ink-700 sm:text-small">
+                  <span className="inline-flex size-6 items-center justify-center rounded-full bg-primary-50 text-primary-600" aria-hidden="true">
+                    <Icon className="size-3.5" />
+                  </span>
+                  {label}
+                  {i < pathway.length - 1 && <ChevronRight className="size-3.5 text-ink-400" aria-hidden="true" />}
+                </li>
+              ))}
+            </ol>
+
             <div className="mt-7 flex flex-wrap gap-3">
               <ButtonLink to="/symptoms" size="lg">
                 Find My Care <ArrowRight className="size-5" aria-hidden="true" />
@@ -120,21 +150,21 @@ function DesktopHome() {
               </ButtonLink>
             </div>
 
-            <div className="mt-9 max-w-lg">
+            <div className="mt-8 max-w-lg">
               <SearchBar
                 value={q}
                 onChange={setQ}
-                onSubmit={(v) => navigate(v.trim() ? `/symptoms?q=${encodeURIComponent(v.trim())}` : "/symptoms")}
-                placeholder="What brings you here today?"
+                onSubmit={(v) => openSearch(v.trim())}
+                placeholder="Search symptoms, doctors, specialties…"
                 label="What brings you here today?"
                 size="lg"
               />
               <ul className="mt-3 flex flex-wrap gap-2" aria-label="Popular specialties">
-                {specialties.slice(0, 5).map((s) => {
+                {specialties.slice(0, 4).map((s) => {
                   const Icon = getIcon(s.icon);
                   return (
                     <li key={s.slug}>
-                      <Link to={`/specialties/${s.slug}`} style={toneStyle(s.slug)} className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-full border border-line bg-white px-3 text-caption font-semibold text-ink-700 shadow-xs hover:border-[color:var(--accent)] hover:text-accent">
+                      <Link to={`/specialties/${s.slug}`} style={toneStyle(s.slug)} className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-line bg-white px-3 text-caption font-semibold text-ink-700 shadow-xs hover:border-[color:var(--accent)] hover:text-accent sm:min-h-9">
                         <Icon className="size-3.5 text-accent" aria-hidden="true" /> {s.name}
                       </Link>
                     </li>
@@ -144,12 +174,12 @@ function DesktopHome() {
             </div>
           </div>
 
-          <div className="relative hidden self-end md:block">
+          <div className="relative hidden self-end lg:block">
             <div aria-hidden="true" className="absolute inset-x-[8%] bottom-0 top-[12%] rounded-t-[12rem] bg-gradient-to-b from-primary-100 to-primary-50" />
             <img
               src={imageSrc("doctor-hero-right", 1024)}
               srcSet={imageSrcSet("doctor-hero-right")}
-              sizes="(min-width: 1024px) 45vw, 90vw"
+              sizes="45vw"
               alt="Smiling HealthSphere doctor welcoming you"
               width={1536}
               height={1024}
@@ -157,24 +187,17 @@ function DesktopHome() {
               fetchpriority="high"
               className="relative mx-auto aspect-[4/3.4] w-full max-w-[38rem] object-cover object-[30%_0%]"
             />
-            <p aria-hidden="true" className="absolute top-[14%] right-[6%] rotate-[-6deg] font-serif text-stat leading-tight text-primary-700/80 italic">
-              Your health,<br />our mission ♡
-            </p>
             <div className="absolute bottom-[14%] left-0 flex animate-fade-up items-center gap-3 rounded-2xl border border-line bg-white/95 p-3 pr-4 shadow-raised backdrop-blur">
-              <div className="flex -space-x-2" aria-hidden="true">
-                {["AK", "RI", "SR"].map((i, n) => (
-                  <span key={i} className={cn("inline-flex size-8 items-center justify-center rounded-full text-caption font-bold ring-2 ring-white", ["bg-primary-100 text-primary-700", "bg-success-50 text-success-700", "bg-warning-50 text-warning-700"][n])}>{i}</span>
-                ))}
-              </div>
+              <span className="inline-flex size-10 items-center justify-center rounded-xl bg-success-50 text-success-700" aria-hidden="true"><ShieldCheck className="size-5" /></span>
               <div>
-                <p className="text-caption text-ink-500">Trusted by</p>
-                <p className="text-small font-bold text-ink-900">1M+ patients · ★ 4.9/5</p>
+                <p className="text-caption text-ink-500">Rated by patients after real visits</p>
+                <p className="text-small font-bold text-ink-900">★ 4.9 average · 1M+ patients</p>
               </div>
             </div>
-            <div className="absolute right-0 bottom-[34%] hidden w-56 animate-fade-up rounded-2xl border border-line bg-white/95 p-3.5 shadow-raised backdrop-blur lg:block" style={{ animationDelay: "120ms" }}>
-              <p className="text-caption font-semibold text-ink-500">Care journey</p>
-              <p className="text-small font-bold text-ink-900">LASIK · 68% complete</p>
-              <div className="mt-2 h-1.5 rounded-full bg-primary-50"><div className="h-full w-[68%] rounded-full bg-primary-600" /></div>
+            <div className="absolute right-0 bottom-[34%] w-60 animate-fade-up rounded-2xl border border-line bg-white/95 p-4 shadow-raised backdrop-blur" style={{ animationDelay: "120ms" }}>
+              <p className="flex items-center gap-1.5 text-caption font-semibold text-ink-500"><FolderHeart className="size-3.5 text-primary-600" aria-hidden="true" />My Care Journey</p>
+              <p className="mt-0.5 flex items-baseline justify-between text-small font-bold text-ink-900">LASIK Surgery <span className="text-primary-700">68%</span></p>
+              <div className="mt-2 h-1.5 rounded-full bg-primary-50"><div className="h-full w-[68%] origin-left animate-grow rounded-full bg-primary-600" /></div>
               <p className="mt-2 text-caption text-ink-600">Next: Pre-surgery assessment</p>
             </div>
           </div>
@@ -422,7 +445,7 @@ function MobileHome() {
         )}
       </header>
 
-      <button onClick={openSearch} aria-label="Search symptoms, doctors, specialties" className="flex h-12 w-full items-center gap-3 rounded-full border border-line bg-white px-4 text-left text-ink-500 shadow-xs">
+      <button onClick={() => openSearch()} aria-label="Search symptoms, doctors, specialties" className="flex h-12 w-full items-center gap-3 rounded-full border border-line bg-white px-4 text-left text-ink-500 shadow-xs">
         <Search className="size-5" aria-hidden="true" />
         <span className="min-w-0 truncate text-control">Search symptoms, doctors, specialties…</span>
       </button>

@@ -57,11 +57,11 @@ export function SpecialtiesPage() {
         <SearchBar value={q} onChange={setQ} placeholder="Search a specialty, condition or specialist…" label="Filter specialties" />
       </div>
 
-      <h2 className="sr-only">All specialties</h2>
+
       <p className="sr-only" aria-live="polite">{list.length} specialties shown</p>
       {list.length ? (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {list.map((s) => <SpecialtyImageCard key={s.slug} specialty={s} />)}
+          {list.map((s) => <SpecialtyImageCard key={s.slug} specialty={s} headingLevel="h2" />)}
         </div>
       ) : (
         <EmptyState icon={Search} title="No specialties match" description={`We couldn't find “${q}”. Try the symptom checker instead.`} action={<ButtonLink to="/symptoms">Check a symptom</ButtonLink>} />
@@ -128,7 +128,7 @@ export function SpecialtyPage() {
               </dl>
             </div>
             <div className="order-1 overflow-hidden rounded-3xl bg-white shadow-raised lg:order-2">
-              <SmartImage image={spec.heroImage ?? spec.image} priority sizes="(min-width: 1024px) 55vw, 100vw" className="aspect-[3/2] w-full" />
+              <SmartImage image={spec.image} priority sizes="(min-width: 1024px) 55vw, 100vw" className="aspect-[3/2] w-full" />
             </div>
           </div>
 

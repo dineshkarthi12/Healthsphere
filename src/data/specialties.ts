@@ -17,8 +17,9 @@ export const specialties: Specialty[] = [
       "Comprehensive eye care from routine vision tests to advanced LASIK, cataract and retina surgery — with precision diagnostics and a guided surgical journey.",
     icon: "Eye",
     tone: { color: "#1d8fe0", tint: "#e6f3fd", ink: "#0d68a8" },
-    image: { name: "eye-care-specialty", alt: "Ophthalmologist explaining an anatomical eye model beside a slit lamp and vision chart", focus: "40% 30%" },
-    heroImage: { name: "eye-care-experience", alt: "Close-up of a clear blue eye with soft light", focus: "75% 42%" },
+    summary: "Complete vision and eye health care from diagnosis to treatment and recovery.",
+    highlights: ["Eye Tests", "OCT", "Cataract", "Glaucoma", "LASIK", "Retina"],
+    image: { name: "eye-care-experience", alt: "Close-up of a clear blue eye with soft light", focus: "75% 42%" },
     module: "vision-profile",
     quickActions: [
       { label: "Vision Test", icon: "Eye" },
@@ -75,8 +76,9 @@ export const specialties: Specialty[] = [
       "Advanced cardiac care with state-of-the-art diagnostics, preventive cardiology, interventional procedures and continuous heart monitoring.",
     icon: "Heart",
     tone: { color: "#e5484d", tint: "#fdeced", ink: "#b42a33" },
-    image: { name: "heart-care-specialty", alt: "Cardiologist holding an anatomical heart model beside a cardiac monitor", focus: "55% 35%" },
-    heroImage: { name: "heart-care-experience", alt: "Illustration of a human heart beside a heartbeat line", focus: "70% 55%" },
+    summary: "Prevention, diagnosis and treatment for heart conditions, with continuous monitoring.",
+    highlights: ["ECG", "Echo", "Stress Test", "Angiography", "Hypertension", "Cardiac Rehab"],
+    image: { name: "heart-care-experience", alt: "Illustration of a human heart beside a heartbeat line", focus: "70% 55%" },
     module: "heart-overview",
     quickActions: [
       { label: "ECG", icon: "Activity" },
@@ -131,6 +133,8 @@ export const specialties: Specialty[] = [
       "Neurology and neurosurgery for migraine, epilepsy, stroke, movement disorders and spine-nerve conditions — guided by advanced MRI, CT and EEG.",
     icon: "Brain",
     tone: { color: "#7c5cfc", tint: "#f0ecff", ink: "#5a3fd6" },
+    summary: "Neurology and neurosurgery for headaches, seizures, stroke and nerve disorders.",
+    highlights: ["MRI", "CT", "EEG", "Migraine", "Epilepsy", "Stroke Care"],
     image: { name: "brain-neuro-specialty", alt: "Neurologist presenting a colour-coded brain model in front of brain imaging screens", focus: "50% 35%" },
     module: "neuro-assessment",
     quickActions: [
@@ -186,6 +190,8 @@ export const specialties: Specialty[] = [
       "Orthopaedics and spine care for injuries, arthritis and back pain — from precise imaging to joint replacement, spine surgery and guided physiotherapy.",
     icon: "Bone",
     tone: { color: "#0f9a8a", tint: "#e4f5f2", ink: "#0a7568" },
+    summary: "Orthopaedic and spine care for pain, injuries and arthritis — through to recovery.",
+    highlights: ["X-ray", "MRI", "Joint Replacement", "Spine Surgery", "Sports Injury", "Physiotherapy"],
     image: { name: "bone-spine-specialty", alt: "Orthopaedic specialist pointing to a spine model with spinal X-ray images behind", focus: "55% 35%" },
     module: "pain-tracker",
     quickActions: [
@@ -241,6 +247,8 @@ export const specialties: Specialty[] = [
       "Pulmonology for asthma, COPD, allergies and infections — with lung function testing, imaging and long-term respiratory monitoring.",
     icon: "Lungs",
     tone: { color: "#0a9fb5", tint: "#e2f5f8", ink: "#087889" },
+    summary: "Respiratory care for asthma, COPD, allergies and sleep-related breathing problems.",
+    highlights: ["Spirometry", "HRCT", "Asthma", "COPD", "Allergy Tests", "Pulmonary Rehab"],
     image: { name: "lung-care-specialty", alt: "Pulmonologist holding a lung model with lung imaging and oxygen readings on screen", focus: "55% 35%" },
     module: "lung-function",
     quickActions: [
@@ -295,6 +303,8 @@ export const specialties: Specialty[] = [
       "Medical and aesthetic dermatology for acne, pigmentation, eczema, hair and nail concerns — evidence-based treatments with visible progress tracking.",
     icon: "SkinLayers",
     tone: { color: "#d96612", tint: "#fef0e4", ink: "#a14c0b" },
+    summary: "Medical and aesthetic dermatology for skin, hair and nails, with progress tracking.",
+    highlights: ["Skin Exam", "Acne", "Pigmentation", "Eczema", "Laser", "Hair Loss"],
     image: { name: "skin-care-specialty", alt: "Dermatologist explaining a skin layer model with close-ups of skin conditions", focus: "45% 35%" },
     module: "skin-profile",
     quickActions: [
@@ -349,6 +359,8 @@ export const specialties: Specialty[] = [
       "Comprehensive oncology — screening, precise diagnostics, multidisciplinary tumour boards, chemotherapy, radiation, surgery and survivorship support.",
     icon: "Ribbon",
     tone: { color: "#b83fc9", tint: "#f8eafb", ink: "#8e2a9e" },
+    summary: "Coordinated cancer care — screening, diagnosis, treatment planning and survivorship.",
+    highlights: ["Screening", "Biopsy", "PET-CT", "Chemotherapy", "Radiation", "Tumour Board"],
     image: { name: "cancer-care-specialty", alt: "Oncologist with a cell model, with a patient receiving supportive care in the background", focus: "45% 35%" },
     module: "oncology-plan",
     quickActions: [
@@ -404,6 +416,8 @@ export const specialties: Specialty[] = [
       "Nephrology and urology for kidney stones, chronic kidney disease, urinary and prostate health — with diagnostics, minimally invasive treatment and dialysis support.",
     icon: "Kidney",
     tone: { color: "#e04a72", tint: "#fdebf0", ink: "#b02c52" },
+    summary: "Kidney and urinary care, from stones and infections to chronic kidney disease.",
+    highlights: ["Kidney Function", "Ultrasound", "Kidney Stones", "Prostate", "Dialysis", "UTI"],
     image: { name: "kidney-urology-specialty", alt: "Urologist with a kidney and bladder model in front of kidney imaging", focus: "50% 35%" },
     module: "kidney-function",
     quickActions: [
@@ -458,6 +472,8 @@ export const specialties: Specialty[] = [
       "General, preventive and cosmetic dentistry — cleaning, fillings, root canals, implants and orthodontics with a clear plan for every tooth.",
     icon: "Tooth",
     tone: { color: "#12a597", tint: "#e3f7f4", ink: "#0b7a70" },
+    summary: "Preventive, restorative and cosmetic dentistry with a clear plan for every tooth.",
+    highlights: ["Check-up", "Cleaning", "Fillings", "Root Canal", "Implants", "Braces"],
     image: { name: "dental-care-specialty", alt: "Dentist presenting a dental model with dental X-rays on screen", focus: "50% 35%" },
     module: "dental-chart",
     quickActions: [
@@ -511,6 +527,8 @@ export const specialties: Specialty[] = [
       "Gynaecology and obstetrics across life — menstrual health, fertility, pregnancy, menopause and preventive screenings, with privacy at the centre.",
     icon: "Venus",
     tone: { color: "#d9529b", tint: "#fcebf4", ink: "#a8306f" },
+    summary: "Gynaecology and obstetrics for every stage of life, with privacy at the centre.",
+    highlights: ["Well-woman Check", "Pregnancy", "PCOS", "Fertility", "Menopause", "HPV Vaccine"],
     image: { name: "womens-health-specialty", alt: "Gynaecologist explaining a reproductive anatomy model, with pregnancy and mother-and-baby imagery", focus: "45% 35%" },
     module: "womens-tracker",
     quickActions: [
@@ -565,6 +583,8 @@ export const specialties: Specialty[] = [
       "Paediatric care from newborn to adolescence — vaccinations, growth and development tracking, nutrition guidance and gentle care for every illness.",
     icon: "Baby",
     tone: { color: "#1f9d63", tint: "#e5f6ed", ink: "#13774a" },
+    summary: "Paediatric care from newborn to teen — vaccines, growth, development and illness.",
+    highlights: ["Vaccination", "Growth", "Nutrition", "Development", "Newborn Care", "Fever Care"],
     image: { name: "child-care-specialty", alt: "Paediatrician gently examining a smiling toddler holding a teddy bear", focus: "45% 40%" },
     module: "child-growth",
     quickActions: [

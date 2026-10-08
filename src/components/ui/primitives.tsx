@@ -232,7 +232,7 @@ export function ProgressBar({ value, label, className, showValue = false, tone =
         aria-valuemin={0}
         aria-valuemax={100}
       >
-        <div className={cn("h-full rounded-full transition-[width] duration-700 ease-out", bar)} style={{ width: `${value}%` }} />
+        <div className={cn("h-full origin-left animate-grow rounded-full transition-[width] duration-700 ease-out", bar)} style={{ width: `${value}%` }} />
       </div>
       {showValue && <span className="w-10 text-right text-small font-semibold tabular-nums text-ink-900">{value}%</span>}
     </div>
