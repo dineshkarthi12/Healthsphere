@@ -1,0 +1,10 @@
+export function DoctorDashboard() { return <div className="container-page py-10">DoctorDashboard</div>; }
+export function DoctorAppointments() { return <div className="container-page py-10">DoctorAppointments</div>; }
+export function DoctorPatients() { return <div className="container-page py-10">DoctorPatients</div>; }
+export function DoctorPatientDetail() { return <div className="container-page py-10">DoctorPatientDetail</div>; }
+export function ConsultWorkspace() { return <div className="container-page py-10">ConsultWorkspace</div>; }
+export function DoctorMessages() { return <div className="container-page py-10">DoctorMessages</div>; }
+export function DoctorRecords() { return <div className="container-page py-10">DoctorRecords</div>; }
+export function DoctorPrescriptions() { return <div className="container-page py-10">DoctorPrescriptions</div>; }
+export function DoctorReports() { return <div className="container-page py-10">DoctorReports</div>; }
+export function DoctorSettings() { return <div className="container-page py-10">DoctorSettings</div>; }
