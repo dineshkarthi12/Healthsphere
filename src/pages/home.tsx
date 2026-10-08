@@ -158,7 +158,7 @@ function DesktopHome() {
                 onChange={setQ}
                 onSubmit={(v) => openSearch(v.trim())}
                 placeholder="Search symptoms, doctors, specialties…"
-                label="What brings you here today?"
+                label="Search symptoms, doctors and specialties"
                 size="lg"
               />
               <ul className="mt-3 flex flex-wrap gap-2" aria-label="Popular specialties">

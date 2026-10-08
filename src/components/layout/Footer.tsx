@@ -84,12 +84,12 @@ export function Footer({ withTabBar = true }: { withTabBar?: boolean }) {
             © 2026 HealthSphere. Prototype with mock data — not for real medical use. In an emergency call <strong className="text-ink-700">108</strong> or <strong className="text-ink-700">112</strong>.
           </p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <Link to="/about#privacy" className="hover:text-primary-700">Privacy</Link>
-            <Link to="/about#terms" className="hover:text-primary-700">Terms</Link>
-            <Link to="/about#accessibility" className="hover:text-primary-700">Accessibility</Link>
+            <Link to="/about#privacy" className="inline-flex min-h-11 items-center hover:text-primary-700 sm:min-h-0">Privacy</Link>
+            <Link to="/about#terms" className="inline-flex min-h-11 items-center hover:text-primary-700 sm:min-h-0">Terms</Link>
+            <Link to="/about#accessibility" className="inline-flex min-h-11 items-center hover:text-primary-700 sm:min-h-0">Accessibility</Link>
             <span className="flex items-center gap-1" aria-label="Social media">
               {[Facebook, Instagram, Linkedin, Youtube].map((Icon, i) => (
-                <a key={i} href="#" onClick={(e) => e.preventDefault()} className="inline-flex size-9 items-center justify-center rounded-full text-ink-500 hover:bg-subtle hover:text-primary-700" aria-label={["Facebook", "Instagram", "LinkedIn", "YouTube"][i]}>
+                <a key={i} href="#" onClick={(e) => e.preventDefault()} className="inline-flex size-11 items-center justify-center rounded-full text-ink-500 hover:bg-subtle hover:text-primary-700 sm:size-9" aria-label={["Facebook", "Instagram", "LinkedIn", "YouTube"][i]}>
                   <Icon className="size-4" aria-hidden="true" />
                 </a>
               ))}

@@ -62,10 +62,10 @@ function AppointmentRows({ rows, compact = false }: { rows: PortalAppointment[];
         const p = patientById(a.patientId)!;
         const s = apptStatus[a.status];
         return (
-          <li key={a.id} className="flex flex-wrap items-center gap-3 py-3">
+          <li key={a.id} className="flex flex-wrap items-center gap-x-3 gap-y-2 py-3">
             <span className="w-[4.5rem] shrink-0 text-small font-semibold text-ink-700 tabular-nums">{a.time}</span>
             <Avatar name={p.name} initials={p.initials} size={36} />
-            <span className="min-w-0 flex-1">
+            <span className="min-w-[9rem] flex-1">
               <Link to={`/doctor/patients/${p.id}`} className="block truncate py-1 text-small font-semibold text-ink-900 hover:text-primary-700">{p.name}</Link>
               <span className="block truncate text-caption text-ink-500">{a.reason}</span>
             </span>

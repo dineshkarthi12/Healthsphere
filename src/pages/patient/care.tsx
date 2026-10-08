@@ -269,14 +269,14 @@ function JourneyDetail({ id }: { id: string }) {
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <Button size="sm" variant="outline" onClick={() => toast({ title: "Message sent to your care team", description: "Typical reply time: under 2 hours." })}><MessageCircle className="size-4" aria-hidden="true" />Message</Button>
-              <a href={`tel:${hospital.phone.replace(/\s/g, "")}`} className="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-line-strong text-small font-semibold text-ink-800 hover:bg-subtle"><Phone className="size-4" aria-hidden="true" />Call</a>
+              <a href={`tel:${hospital.phone.replace(/\s/g, "")}`} className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-line-strong text-small font-semibold text-ink-800 hover:bg-subtle sm:h-9"><Phone className="size-4" aria-hidden="true" />Call</a>
             </div>
           </div>
 
           {upcoming.length > 0 && (
             <div>
               <h2 className="mb-2 font-bold">Upcoming visits</h2>
-              <div className="space-y-3">{upcoming.map((a) => <AppointmentCard key={a.id} appointment={a} compact />)}</div>
+              <div className="space-y-3">{upcoming.map((a) => <AppointmentCard key={a.id} appointment={a} compact showJourneyLink={false} />)}</div>
             </div>
           )}
 

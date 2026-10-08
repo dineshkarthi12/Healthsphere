@@ -17,12 +17,15 @@ const typeMeta = {
 export function AppointmentCard({
   appointment,
   compact = false,
+  showJourneyLink = true,
   onReschedule,
   onCancel,
   className,
 }: {
   appointment: Appointment;
   compact?: boolean;
+  /** Hide the "View care journey" link (e.g. when already on that journey). */
+  showJourneyLink?: boolean;
   onReschedule?: () => void;
   onCancel?: () => void;
   className?: string;
@@ -67,8 +70,8 @@ export function AppointmentCard({
               <Video className="size-4" aria-hidden="true" /> {isToday ? "Join video call" : "Video details"}
             </ButtonLink>
           ) : (
-            <ButtonLink to={appointment.journeyId ? `/care/journey/${appointment.journeyId}` : `/doctors/${doctor.id}`} size="sm" variant="secondary">
-              {appointment.journeyId ? "View care journey" : "View doctor"}
+            <ButtonLink to={appointment.journeyId && showJourneyLink ? `/care/journey/${appointment.journeyId}` : showJourneyLink ? `/doctors/${doctor.id}` : "/appointments"} size="sm" variant="secondary">
+              {appointment.journeyId && showJourneyLink ? "View care journey" : showJourneyLink ? "View doctor" : "Manage appointment"}
             </ButtonLink>
           )}
           {onReschedule && <Button size="sm" variant="outline" onClick={onReschedule}>Reschedule</Button>}

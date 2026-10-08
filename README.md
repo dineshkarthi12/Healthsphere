@@ -15,9 +15,16 @@ npm run build      # type-check + production build into dist/
 npm run preview    # serve the production build
 ```
 
-The demo patient account (Priya Raman) is one tap away: **Login → Continue with demo account**, or use the button on any patient screen. App state such as bookings, uploads and sign-in persists in `localStorage`. **Profile → Reset demo data** restores the seed data.
+The demo patient account (Priya Raman) is one tap away: **Login → Continue with demo account**, or use the button on any patient screen. You can also sign in with any valid email or mobile and a password of 6+ characters, or "Continue with Google" (simulated). App state such as bookings, uploads and sign-in persists in `localStorage`. **Profile → Reset demo data** restores the seed data.
 
-Add `?simulate=error` to a list page (doctors, records or appointments) to see its error state.
+To see the failure and error states:
+
+- add `?simulate=error` to a list page (doctors, records or appointments)
+- enter `fail@upi` as the UPI ID at the booking payment step
+
+## Deployment
+
+`vercel.json` rewrites every path to `index.html`, so client-side routes such as `/login` work on direct visits and refreshes. It also sets long-lived cache headers for the hashed build assets.
 
 ## Stack
 
@@ -36,11 +43,11 @@ Framer Motion was deliberately left out. All motion is subtle CSS (`fade-up`, `s
 | Area | Routes |
 | --- | --- |
 | Public | `/`, `/specialties`, `/specialties/:slug` (11 specialties), `/symptoms`, `/doctors`, `/doctors/:id`, `/hospitals`, `/hospitals/:id`, `/health-library`, `/health-library/:slug`, `/about`, `/contact`, `/emergency`, `/login`, `/signup` |
-| Patient | `/appointments`, `/appointments/book`, `/care`, `/care/journey/:id`, `/records`, `/insights`, `/profile`, `/consultation/:id` |
+| Patient | `/dashboard`, `/appointments`, `/appointments/book`, `/care`, `/care/journey/:id`, `/records`, `/insights`, `/profile`, `/consultation/:id` |
 | Doctor portal | `/doctor`, plus `appointments`, `patients`, `patients/:id`, `consult/:id`, `messages`, `records`, `prescriptions`, `reports`, `settings` |
 | Hospital admin | `/admin`, plus `doctors`, `patients`, `departments`, `appointments`, `reports`, `analytics`, `settings` |
 
-On phones, `/` renders a dedicated app home (greeting, quick intents, upcoming appointment, health overview, quick actions) rather than a squeezed landing page. A bottom tab bar (Home, Care, Appointments, Records, Profile) handles primary navigation.
+Signed-in patients get a dashboard at `/dashboard`: on desktop it shows the next appointment, quick entry points, care journeys, health metrics and recent records. On phones, both `/` and `/dashboard` render a dedicated app home (greeting, quick intents, upcoming appointment, health overview, quick actions) rather than a squeezed landing page. A bottom tab bar (Home, Care, Appointments, Records, Profile) handles primary navigation.
 
 ## Architecture
 

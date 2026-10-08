@@ -194,7 +194,7 @@ export function ChildGrowth() {
             <li key={v.age} className={cn("flex items-start gap-3 rounded-xl border p-3", v.status === "due" ? "border-[color:var(--accent)] bg-accent-tint/50" : "border-line")}>
               {v.status === "done" ? <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-success-700" aria-hidden="true" /> : v.status === "due" ? <Clock className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" /> : <Circle className="mt-0.5 size-5 shrink-0 text-ink-300" aria-hidden="true" />}
               <div className="min-w-0 flex-1">
-                <p className="flex flex-wrap items-center gap-2 font-semibold text-ink-900">{v.age}<span className={cn("rounded-full px-2 py-0.5 text-caption", v.status === "done" ? "bg-success-50 text-success-700" : v.status === "due" ? "bg-accent text-white" : "bg-subtle text-ink-600")}>{v.status === "done" ? "Given" : v.status === "due" ? "Due now" : "Upcoming"}</span></p>
+                <p className="flex flex-wrap items-center gap-2 font-semibold text-ink-900">{v.age}<span className={cn("rounded-full px-2 py-0.5 text-caption", v.status === "done" ? "bg-success-50 text-success-700" : v.status === "due" ? "bg-accent-ink text-white" : "bg-subtle text-ink-600")}>{v.status === "done" ? "Given" : v.status === "due" ? "Due now" : "Upcoming"}</span></p>
                 <p className="text-small text-ink-600">{v.items.join(" · ")}</p>
               </div>
             </li>
