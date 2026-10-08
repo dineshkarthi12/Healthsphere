@@ -422,9 +422,9 @@ function MobileHome() {
         )}
       </header>
 
-      <button onClick={openSearch} className="flex h-12 w-full items-center gap-3 rounded-full border border-line bg-white px-4 text-left text-ink-400 shadow-xs">
+      <button onClick={openSearch} aria-label="Search symptoms, doctors, specialties" className="flex h-12 w-full items-center gap-3 rounded-full border border-line bg-white px-4 text-left text-ink-400 shadow-xs">
         <Search className="size-5" aria-hidden="true" />
-        <span className="text-[0.9375rem]">Search symptoms, doctors, specialties…</span>
+        <span className="min-w-0 truncate text-[0.9375rem]">Search symptoms, doctors, specialties…</span>
       </button>
 
       <section aria-labelledby="m-intents">

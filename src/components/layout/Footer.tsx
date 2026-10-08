@@ -82,7 +82,7 @@ export function Footer() {
           <p>
             © 2026 HealthSphere. Prototype with mock data — not for real medical use. In an emergency call <strong className="text-ink-700">108</strong> or <strong className="text-ink-700">112</strong>.
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <Link to="/about#privacy" className="hover:text-primary-700">Privacy</Link>
             <Link to="/about#terms" className="hover:text-primary-700">Terms</Link>
             <Link to="/about#accessibility" className="hover:text-primary-700">Accessibility</Link>
