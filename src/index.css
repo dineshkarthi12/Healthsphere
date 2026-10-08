@@ -163,6 +163,9 @@
 
   img { max-width: 100%; height: auto; }
 
+  /* Grid tracks shouldn't be widened by long nowrap/truncated content. */
+  [class*="grid-cols"] > * { min-width: 0; }
+
   /* Visible, consistent focus — keyboard users only */
   :focus-visible {
     outline: 2px solid var(--color-primary-600);
@@ -231,6 +234,7 @@
 
 /* Surfaces */
 @utility card {
+  min-width: 0;
   background: var(--color-surface);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-xl);

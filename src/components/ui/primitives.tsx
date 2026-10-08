@@ -467,3 +467,32 @@ export function Disclaimer({ children, className }: { children?: React.ReactNode
     </p>
   );
 }
+
+/* --------------------------------------------------------------- Switch */
+export function Switch({ checked, onChange, label, description, disabled }: { checked: boolean; onChange: (v: boolean) => void; label: string; description?: string; disabled?: boolean }) {
+  const id = useId();
+  return (
+    <div className="flex items-start justify-between gap-4 py-3">
+      <div className="min-w-0">
+        <p id={`${id}-l`} className="font-semibold text-ink-900">{label}</p>
+        {description && <p id={`${id}-d`} className="mt-0.5 text-small text-ink-500">{description}</p>}
+      </div>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        aria-labelledby={`${id}-l`}
+        aria-describedby={description ? `${id}-d` : undefined}
+        disabled={disabled}
+        onClick={() => onChange(!checked)}
+        className={cn(
+          "relative mt-0.5 inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors disabled:opacity-50",
+          checked ? "bg-primary-600" : "bg-ink-300",
+        )}
+      >
+        <span className={cn("inline-block size-5.5 rounded-full bg-white shadow-xs transition-transform", checked ? "translate-x-[1.375rem]" : "translate-x-[0.1875rem]")} />
+        <span className="sr-only">{checked ? "On" : "Off"}</span>
+      </button>
+    </div>
+  );
+}

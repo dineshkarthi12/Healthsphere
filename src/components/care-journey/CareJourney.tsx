@@ -44,8 +44,10 @@ const statusText: Record<JourneyStage["status"], string> = { completed: "Complet
 
 /* ----------------------------------------------------- horizontal stepper */
 export function JourneyStepper({ stages, className, label }: { stages: (Pick<JourneyStage, "title" | "status">)[]; className?: string; label: string }) {
+  // With many stages, phones show only the current stage's label.
+  const dense = stages.length > 5;
   return (
-    <ol className={cn("flex items-start", className)} aria-label={label}>
+    <ol className={cn("flex items-start", dense && "min-h-12 sm:min-h-0", className)} aria-label={label}>
       {stages.map((s, i) => (
         <li key={s.title} className="relative flex min-w-0 flex-1 flex-col items-center text-center">
           {i > 0 && (
@@ -55,7 +57,7 @@ export function JourneyStepper({ stages, className, label }: { stages: (Pick<Jou
             />
           )}
           <StageNode status={s.status} size="sm" />
-          <span className={cn("mt-2 px-0.5 text-[0.6875rem] leading-tight font-semibold sm:text-caption", s.status === "upcoming" ? "text-ink-500" : "text-ink-800")}>{s.title}</span>
+          <span className={cn("mt-2 px-0.5 text-[0.6875rem] leading-tight font-semibold sm:text-caption", s.status === "upcoming" ? "text-ink-500" : "text-ink-800", dense && s.status !== "current" && "sr-only sm:not-sr-only")}>{s.title}</span>
           <span className="sr-only">: {statusText[s.status]}</span>
         </li>
       ))}
