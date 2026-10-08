@@ -134,7 +134,7 @@ function DesktopHome() {
                   const Icon = getIcon(s.icon);
                   return (
                     <li key={s.slug}>
-                      <Link to={`/specialties/${s.slug}`} style={toneStyle(s.slug)} className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-line bg-white px-3 text-caption font-semibold text-ink-700 shadow-xs hover:border-[color:var(--accent)] hover:text-accent">
+                      <Link to={`/specialties/${s.slug}`} style={toneStyle(s.slug)} className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-full border border-line bg-white px-3 text-caption font-semibold text-ink-700 shadow-xs hover:border-[color:var(--accent)] hover:text-accent">
                         <Icon className="size-3.5 text-accent" aria-hidden="true" /> {s.name}
                       </Link>
                     </li>
@@ -157,7 +157,7 @@ function DesktopHome() {
               fetchpriority="high"
               className="relative mx-auto aspect-[4/3.4] w-full max-w-[38rem] object-cover object-[30%_0%]"
             />
-            <p aria-hidden="true" className="absolute top-[14%] right-[6%] rotate-[-6deg] font-serif text-[1.4rem] leading-tight text-primary-700/80 italic">
+            <p aria-hidden="true" className="absolute top-[14%] right-[6%] rotate-[-6deg] font-serif text-stat leading-tight text-primary-700/80 italic">
               Your health,<br />our mission ♡
             </p>
             <div className="absolute bottom-[14%] left-0 flex animate-fade-up items-center gap-3 rounded-2xl border border-line bg-white/95 p-3 pr-4 shadow-raised backdrop-blur">
@@ -190,7 +190,7 @@ function DesktopHome() {
                 <Icon className="size-6" aria-hidden="true" />
               </span>
               <span>
-                <span className="block text-[1.75rem] leading-none font-extrabold tracking-tight text-ink-900">{value}</span>
+                <span className="block text-stat-lg leading-none font-extrabold tracking-tight text-ink-900">{value}</span>
                 <span className="mt-1 block text-small text-ink-500">{label}</span>
               </span>
             </li>
@@ -240,7 +240,7 @@ function DesktopHome() {
                 <li key={title} className="flex gap-3">
                   <span className="relative inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-600">
                     <Icon className="size-5" aria-hidden="true" />
-                    <span className="absolute -top-1.5 -right-1.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-600 text-[0.625rem] font-bold text-white" aria-hidden="true">{i + 1}</span>
+                    <span className="absolute -top-1.5 -right-1.5 inline-flex size-5 items-center justify-center rounded-full bg-primary-600 text-micro font-bold text-white" aria-hidden="true">{i + 1}</span>
                   </span>
                   <span>
                     <span className="block font-bold text-ink-900">{title}</span>
@@ -407,7 +407,7 @@ function MobileHome() {
     <div className="space-y-7 px-4 pt-5 pb-6">
       <header className="flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-[1.5rem] leading-tight font-bold tracking-tight">
+          <h1 className="text-stat leading-tight font-bold tracking-tight">
             {greeting()}{signedIn ? `, ${currentPatient.firstName}` : ""} <span aria-hidden="true">👋</span>
           </h1>
           <p className="mt-0.5 text-small text-ink-500">Your health journey matters.</p>
@@ -415,16 +415,16 @@ function MobileHome() {
         {signedIn ? (
           <Link to="/profile" className="relative rounded-full" aria-label={`Profile${unread ? `, ${unread} unread notifications` : ""}`}>
             <Avatar name={currentPatient.name} initials={currentPatient.initials} size={44} />
-            {unread > 0 && <span className="absolute -top-0.5 -right-0.5 inline-flex size-4.5 items-center justify-center rounded-full bg-danger-500 text-[0.625rem] font-bold text-white ring-2 ring-white" aria-hidden="true">{unread}</span>}
+            {unread > 0 && <span className="absolute -top-0.5 -right-0.5 inline-flex size-4.5 items-center justify-center rounded-full bg-danger-500 text-micro font-bold text-white ring-2 ring-white" aria-hidden="true">{unread}</span>}
           </Link>
         ) : (
           <ButtonLink to="/login" size="sm" variant="secondary">Login</ButtonLink>
         )}
       </header>
 
-      <button onClick={openSearch} aria-label="Search symptoms, doctors, specialties" className="flex h-12 w-full items-center gap-3 rounded-full border border-line bg-white px-4 text-left text-ink-400 shadow-xs">
+      <button onClick={openSearch} aria-label="Search symptoms, doctors, specialties" className="flex h-12 w-full items-center gap-3 rounded-full border border-line bg-white px-4 text-left text-ink-500 shadow-xs">
         <Search className="size-5" aria-hidden="true" />
-        <span className="min-w-0 truncate text-[0.9375rem]">Search symptoms, doctors, specialties…</span>
+        <span className="min-w-0 truncate text-control">Search symptoms, doctors, specialties…</span>
       </button>
 
       <section aria-labelledby="m-intents">
@@ -458,7 +458,7 @@ function MobileHome() {
 
           <section aria-labelledby="m-health">
             <SectionHeader id="m-health" as="h3" title="Health overview" action={{ label: "Insights", to: "/insights" }} className="mb-3" />
-            <div className="scrollbar-none -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-1">
+            <div className="scrollbar-none -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-1" tabIndex={0} role="region" aria-label="Health metrics, scroll for more">
               {metrics.map((m) => (
                 <HealthMetricCard key={m.id} metric={m} compact className="w-40 shrink-0 snap-start" />
               ))}

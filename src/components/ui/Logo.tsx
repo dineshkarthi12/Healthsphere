@@ -43,7 +43,7 @@ export function Logo({ className, compact = false }: { className?: string; compa
     <span className={cn("inline-flex items-center gap-2", className)}>
       <LogoMark />
       {!compact && (
-        <span className="text-[1.2rem] font-extrabold tracking-[-0.03em] text-ink-900">
+        <span className="text-h3 font-extrabold tracking-[-0.03em] text-ink-900">
           Health<span className="text-primary-600">Sphere</span>
         </span>
       )}

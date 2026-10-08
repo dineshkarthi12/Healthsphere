@@ -31,7 +31,7 @@ export function NeuroAssessment() {
         <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {beFast.map((b) => (
             <li key={b.letter} className={cn("rounded-xl border p-3", b.letter === "T" ? "border-danger-100 bg-danger-50" : "border-line bg-white")}>
-              <p className="flex items-baseline gap-1.5"><span className="text-[1.5rem] leading-none font-extrabold text-accent">{b.letter}</span><span className="font-bold text-ink-900">{b.word}</span></p>
+              <p className="flex items-baseline gap-1.5"><span className="text-stat leading-none font-extrabold text-accent">{b.letter}</span><span className="font-bold text-ink-900">{b.word}</span></p>
               <p className="mt-1 text-caption text-ink-600">{b.text}</p>
             </li>
           ))}
@@ -43,7 +43,7 @@ export function NeuroAssessment() {
 
       <ModuleCard title="Headache diary" subtitle="Logging helps your neurologist find patterns and triggers.">
         <label htmlFor="sev" className="flex items-center justify-between text-small font-semibold text-ink-800">
-          Today's severity <span className="text-[1.25rem] font-bold text-ink-900 tabular-nums">{severity}/10</span>
+          Today's severity <span className="text-h3 font-bold text-ink-900 tabular-nums">{severity}/10</span>
         </label>
         <input id="sev" type="range" min={0} max={10} value={severity} onChange={(e) => setSeverity(+e.target.value)} className="mt-2 h-11 w-full accent-[var(--accent)]" aria-valuetext={`${severity} out of 10`} />
         <p className="mt-2 text-small font-semibold text-ink-800" id="trig">Possible triggers</p>
@@ -51,7 +51,7 @@ export function NeuroAssessment() {
           {triggers.map((t) => {
             const on = picked.includes(t);
             return (
-              <button key={t} aria-pressed={on} onClick={() => setPicked((p) => (on ? p.filter((x) => x !== t) : [...p, t]))} className={cn("min-h-9 rounded-full border px-3 text-small font-medium transition-colors", on ? "border-[color:var(--accent)] bg-accent-tint text-accent" : "border-line text-ink-600 hover:border-line-strong")}>
+              <button key={t} aria-pressed={on} onClick={() => setPicked((p) => (on ? p.filter((x) => x !== t) : [...p, t]))} className={cn("min-h-11 sm:min-h-9 rounded-full border px-3 text-small font-medium transition-colors", on ? "border-[color:var(--accent)] bg-accent-tint text-accent" : "border-line text-ink-600 hover:border-line-strong")}>
                 {t}
               </button>
             );
@@ -100,7 +100,7 @@ export function PainTracker() {
           ))}
         </div>
         <label htmlFor="pain" className="mt-4 flex items-center justify-between text-small font-semibold text-ink-800">
-          Pain right now <span className="text-[1.25rem] font-bold tabular-nums">{pain}/10</span>
+          Pain right now <span className="text-h3 font-bold tabular-nums">{pain}/10</span>
         </label>
         <input id="pain" type="range" min={0} max={10} value={pain} onChange={(e) => setPain(+e.target.value)} className="mt-1 h-11 w-full accent-[var(--accent)]" aria-valuetext={`${pain} out of 10, ${pain <= 3 ? "mild" : pain <= 6 ? "moderate" : "severe"}`} />
         <div className="flex justify-between text-caption text-ink-500"><span>No pain</span><span>Moderate</span><span>Worst</span></div>

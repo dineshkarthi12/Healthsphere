@@ -94,7 +94,7 @@ export function SymptomsPage() {
           <SearchBar value={q} onChange={setQ} placeholder="Type a symptom, e.g. back pain" label="Search symptoms" className="mt-4" />
           <div className="scrollbar-none -mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-1" role="group" aria-label="Body area">
             {["", ...symptomAreas].map((a) => (
-              <button key={a || "all"} aria-pressed={area === a} onClick={() => setArea(a)} className={cn("min-h-9 shrink-0 rounded-full border px-3.5 text-small font-semibold", area === a ? "border-primary-600 bg-primary-600 text-white" : "border-line bg-white text-ink-600 hover:border-line-strong")}>{a || "All areas"}</button>
+              <button key={a || "all"} aria-pressed={area === a} onClick={() => setArea(a)} className={cn("min-h-11 sm:min-h-9 shrink-0 rounded-full border px-3.5 text-small font-semibold", area === a ? "border-primary-600 bg-primary-600 text-white" : "border-line bg-white text-ink-600 hover:border-line-strong")}>{a || "All areas"}</button>
             ))}
           </div>
           {list.length ? (
@@ -224,7 +224,7 @@ export function EmergencyPage() {
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 <a href="tel:108" className="flex min-h-16 items-center gap-3 rounded-2xl bg-danger-600 px-5 text-white shadow-[0_10px_24px_-10px_rgb(201_47_60/0.6)] hover:bg-danger-700">
                   <Ambulance className="size-7" aria-hidden="true" />
-                  <span><span className="block text-lead font-bold">Call Emergency 108</span><span className="block text-small text-danger-100">Ambulance · free · 24/7</span></span>
+                  <span><span className="block text-lead font-bold">Call Emergency 108</span><span className="block text-small text-white/90">Ambulance · free · 24/7</span></span>
                 </a>
                 <a href="tel:112" className="flex min-h-16 items-center gap-3 rounded-2xl border-2 border-danger-500 bg-white px-5 text-danger-700 hover:bg-danger-50">
                   <Phone className="size-6" aria-hidden="true" />
@@ -249,7 +249,7 @@ export function EmergencyPage() {
             {erHospitals.map((h) => (
               <li key={h.id} className="card flex flex-col gap-3 p-4 sm:flex-row sm:items-center">
                 <div className="min-w-0 flex-1">
-                  <Link to={`/hospitals/${h.id}`} className="font-bold text-ink-900 hover:text-primary-700">{h.name}</Link>
+                  <Link to={`/hospitals/${h.id}`} className="inline-flex min-h-11 items-center font-bold text-ink-900 hover:text-primary-700 sm:min-h-0">{h.name}</Link>
                   <p className="text-small text-ink-500">{h.area}, {h.city} · {h.distanceKm} km</p>
                   <p className="mt-1 inline-flex items-center gap-1.5 text-small font-semibold text-success-700"><Clock className="size-4" aria-hidden="true" />ER wait ~{h.erWaitMinutes} min</p>
                 </div>
@@ -355,7 +355,7 @@ export function AboutPage() {
             <h2 id="team" className="t-h1">Led by clinicians</h2>
             <p className="mt-3 text-ink-600">Our clinical leadership reviews every care pathway, specialty module and Health Library article. Technology serves the doctor–patient relationship, never replaces it.</p>
             <dl className="mt-6 grid grid-cols-2 gap-4">
-              {[["1M+", "Patients"], ["500+", "Doctors"], ["50+", "Specialties"], ["120", "Partner hospitals"]].map(([v, l]) => <div key={l} className="card p-4"><dt className="text-small text-ink-500">{l}</dt><dd className="text-[1.75rem] font-bold">{v}</dd></div>)}
+              {[["1M+", "Patients"], ["500+", "Doctors"], ["50+", "Specialties"], ["120", "Partner hospitals"]].map(([v, l]) => <div key={l} className="card p-4"><dt className="text-small text-ink-500">{l}</dt><dd className="text-stat-lg font-bold">{v}</dd></div>)}
             </dl>
           </div>
         </section>

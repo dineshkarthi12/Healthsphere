@@ -206,15 +206,19 @@ function Records() {
         subtitle="Reports, prescriptions and documents from every visit — encrypted and shared only with your consent."
         action={<Button onClick={() => setUpload(true)}><UploadCloud className="size-4" aria-hidden="true" />Upload</Button>}
       />
+      <Tabs value={tab} onValueChange={setTab}>
       <div className="mb-5 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-        <Tabs value={tab} onValueChange={setTab}>
-          <TabsList aria-label="Record categories">
-            {recordTabs.map((t) => <TabsTrigger key={t.value} value={t.value}>{t.label}</TabsTrigger>)}
-          </TabsList>
-        </Tabs>
+        <TabsList aria-label="Record categories">
+          {recordTabs.map((t) => <TabsTrigger key={t.value} value={t.value}>{t.label}</TabsTrigger>)}
+        </TabsList>
         <SearchBar value={q} onChange={setQ} placeholder="Search records…" label="Search records" className="lg:w-80" />
       </div>
 
+      {recordTabs.map((t) => (
+        <TabsContent key={t.value} value={t.value}>
+          {t.value === tab && (
+            <>
+              <h2 className="sr-only">{t.label === "All" ? "All records" : t.label}</h2>
       {tab === "prescriptions" && (
         <section className="card mb-5 p-5" aria-labelledby="meds">
           <h2 id="meds" className="mb-3 flex items-center gap-2 font-bold"><Pill className="size-5 text-primary-600" aria-hidden="true" />Current medications</h2>
@@ -240,6 +244,11 @@ function Records() {
           </div>
         );
       })()}
+            </>
+          )}
+        </TabsContent>
+      ))}
+      </Tabs>
 
       <Disclaimer className="mt-6">Records shown are mock data for this prototype. HealthSphere is not connected to any real medical record system.</Disclaimer>
 
@@ -381,7 +390,7 @@ function Insights() {
             <h2 id="chart-title" className="t-h3">{m.label}</h2>
             <p className="text-small text-ink-500">{m.range ?? (m.goal ? `Goal: ${m.goal.toLocaleString("en-IN")}${m.id === "sleep" ? " hours" : " steps"}` : "Last 7 months")}</p>
           </div>
-          <p className="text-right"><span className="text-[2rem] leading-none font-bold tabular-nums">{m.value}</span> <span className="text-small text-ink-500">{m.unit}</span></p>
+          <p className="text-right"><span className="text-metric leading-none font-bold tabular-nums">{m.value}</span> <span className="text-small text-ink-500">{m.unit}</span></p>
         </div>
         <MetricChart m={m} />
         <p className="mt-4 flex items-start gap-2 rounded-xl bg-subtle p-4 text-small text-ink-700"><CheckCircle2 className="mt-0.5 size-4.5 shrink-0 text-success-700" aria-hidden="true" />{insightCopy[m.id]}</p>
@@ -519,7 +528,7 @@ function Profile() {
               <Switch checked={prefs.marketing} onChange={toggle("marketing", "Health tips")} label="Personalised health tips" description="Use my specialty interests to suggest Health Library articles." />
             </div>
             <h3 className="mt-6 mb-2 font-bold">Who accessed your records</h3>
-            <div className="overflow-x-auto rounded-xl border border-line">
+            <div className="overflow-x-auto rounded-xl border border-line" tabIndex={0} role="region" aria-label="Record access log">
               <table className="w-full min-w-[30rem] text-left text-small">
                 <caption className="sr-only">Record access log</caption>
                 <thead className="bg-subtle text-ink-600"><tr><th scope="col" className="px-4 py-2.5 font-semibold">Who</th><th scope="col" className="px-4 py-2.5 font-semibold">Action</th><th scope="col" className="px-4 py-2.5 font-semibold">When</th></tr></thead>

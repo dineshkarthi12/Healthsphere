@@ -55,8 +55,8 @@ export function AdminDashboard() {
             <div><dt className="mb-1 flex justify-between text-small"><span className="text-ink-600">OPD capacity used</span><span className="font-semibold">64%</span></dt><dd><ProgressBar value={64} label="OPD capacity" tone="success" /></dd></div>
           </dl>
           <div className="mt-5 grid grid-cols-2 gap-3">
-            <div className="rounded-xl bg-danger-50 p-3"><p className="flex items-center gap-1.5 text-caption font-semibold text-danger-700"><Siren className="size-3.5" aria-hidden="true" />Emergency</p><p className="text-[1.25rem] font-bold">7 active</p><p className="text-caption text-ink-600">Avg wait 12 min</p></div>
-            <div className="rounded-xl bg-success-50 p-3"><p className="flex items-center gap-1.5 text-caption font-semibold text-success-700"><BedDouble className="size-3.5" aria-hidden="true" />Discharges</p><p className="text-[1.25rem] font-bold">23 today</p><p className="text-caption text-ink-600">18 before noon</p></div>
+            <div className="rounded-xl bg-danger-50 p-3"><p className="flex items-center gap-1.5 text-caption font-semibold text-danger-700"><Siren className="size-3.5" aria-hidden="true" />Emergency</p><p className="text-h3 font-bold">7 active</p><p className="text-caption text-ink-600">Avg wait 12 min</p></div>
+            <div className="rounded-xl bg-success-50 p-3"><p className="flex items-center gap-1.5 text-caption font-semibold text-success-700"><BedDouble className="size-3.5" aria-hidden="true" />Discharges</p><p className="text-h3 font-bold">23 today</p><p className="text-caption text-ink-600">18 before noon</p></div>
           </div>
         </Panel>
       </div>
@@ -166,8 +166,8 @@ export function AdminDepartments() {
             <article key={d.slug} className="card p-5" style={toneStyle(spec?.slug)}>
               <div className="flex items-center gap-3"><span className="accent-icon inline-flex size-11 items-center justify-center rounded-xl"><Icon className="size-5" aria-hidden="true" /></span><h2 className="font-bold">{d.name}</h2></div>
               <dl className="mt-4 grid grid-cols-2 gap-3 text-small">
-                <div><dt className="text-ink-500">Patients</dt><dd className="text-[1.25rem] font-bold">{d.patients.toLocaleString("en-IN")}</dd></div>
-                <div><dt className="text-ink-500">Doctors</dt><dd className="text-[1.25rem] font-bold">{d.doctors}</dd></div>
+                <div><dt className="text-ink-500">Patients</dt><dd className="text-h3 font-bold">{d.patients.toLocaleString("en-IN")}</dd></div>
+                <div><dt className="text-ink-500">Doctors</dt><dd className="text-h3 font-bold">{d.doctors}</dd></div>
                 <div><dt className="text-ink-500">Satisfaction</dt><dd className="font-semibold">{d.satisfaction} / 5</dd></div>
                 <div><dt className="text-ink-500">Avg OPD wait</dt><dd className={cn("font-semibold", d.waitMin > 18 && "text-warning-700")}>{d.waitMin} min{d.waitMin > 18 && <AlertTriangle className="ml-1 inline size-3.5" aria-label="above target" />}</dd></div>
               </dl>
@@ -194,7 +194,7 @@ export function AdminAppointments() {
       <div className="mb-4 grid grid-cols-2 gap-3 md:grid-cols-4">
         {["Completed", "Checked in", "Waiting", "Scheduled"].map((s) => (
           <button key={s} aria-pressed={status === s} onClick={() => setStatus(status === s ? "" : s)} className={cn("card p-4 text-left", status === s && "border-primary-500 ring-2 ring-primary-600/15")}>
-            <p className="text-small text-ink-500">{s}</p><p className="text-[1.5rem] font-bold">{rows.filter((r) => r.status === s).length * 10 + 2}</p>
+            <p className="text-small text-ink-500">{s}</p><p className="text-stat font-bold">{rows.filter((r) => r.status === s).length * 10 + 2}</p>
           </button>
         ))}
       </div>

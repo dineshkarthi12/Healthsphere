@@ -36,8 +36,8 @@ export function SlotPicker({ doctorId, value, onChange }: { doctorId: string; va
               )}
             >
               <span className={cn("text-caption font-semibold", selected ? "text-primary-50" : "text-ink-500")}>{i === 0 ? "Today" : d.weekday}</span>
-              <span className="text-[1.125rem] leading-tight font-bold">{d.day}</span>
-              <span className={cn("text-[0.6875rem]", selected ? "text-primary-50" : "text-ink-500")}>{disabled ? "Full" : `${d.availableCount} slots`}</span>
+              <span className="text-lead leading-tight font-bold">{d.day}</span>
+              <span className={cn("text-micro", selected ? "text-primary-50" : "text-ink-500")}>{disabled ? "Full" : `${d.availableCount} slots`}</span>
             </button>
           );
         })}

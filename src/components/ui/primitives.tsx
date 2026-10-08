@@ -133,14 +133,16 @@ export function IconTile({
 
 /* --------------------------------------------------------------- Avatar */
 export function Avatar({
-  name,
   initials,
   photo,
   size = 48,
   className,
   style,
   ring = false,
+  label,
 }: {
+  /** Accessible name when the avatar stands alone; omit when the name is shown next to it. */
+  label?: string;
   name: string;
   initials: string;
   photo?: ImageAsset | string;
@@ -161,11 +163,9 @@ export function Avatar({
       style={{ width: size, height: size, fontSize: Math.max(12, size * 0.34), ...style }}
     >
       {src && !failed ? (
-        <img src={src} alt={name} width={size} height={size} loading="lazy" decoding="async" className="size-full bg-gradient-to-b from-primary-50 to-primary-100 object-cover object-top" onError={() => setFailed(true)} />
+        <img src={src} alt={label ?? ""} width={size} height={size} loading="lazy" decoding="async" className="size-full bg-gradient-to-b from-primary-50 to-primary-100 object-cover object-top" onError={() => setFailed(true)} />
       ) : (
-        <span aria-label={name} role="img">
-          {initials}
-        </span>
+        <span {...(label ? { role: "img", "aria-label": label } : { "aria-hidden": true })}>{initials}</span>
       )}
     </span>
   );
@@ -376,7 +376,7 @@ export function SearchBar({
         placeholder={placeholder}
         className={cn(
           "w-full rounded-full border border-line bg-white text-ink-900 shadow-xs placeholder:text-ink-400 focus:border-primary-400 focus:shadow-focus focus:outline-none",
-          size === "lg" ? "h-14 pr-16 pl-12 text-body" : "h-11 pr-4 pl-11 text-[0.9375rem]",
+          size === "lg" ? "h-14 pr-16 pl-12 text-body" : "h-11 pr-4 pl-11 text-control",
         )}
       />
       {size === "lg" && onSubmit && (
@@ -490,13 +490,11 @@ export function Switch({ checked, onChange, label, description, disabled }: { ch
         aria-describedby={description ? `${id}-d` : undefined}
         disabled={disabled}
         onClick={() => onChange(!checked)}
-        className={cn(
-          "relative mt-0.5 inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors disabled:opacity-50",
-          checked ? "bg-primary-600" : "bg-ink-300",
-        )}
+        className="group -my-2 -mr-1 inline-flex size-11 w-14 shrink-0 items-center justify-center rounded-full disabled:opacity-50"
       >
-        <span className={cn("inline-block size-5.5 rounded-full bg-white shadow-xs transition-transform", checked ? "translate-x-[1.375rem]" : "translate-x-[0.1875rem]")} />
-        <span className="sr-only">{checked ? "On" : "Off"}</span>
+        <span className={cn("relative inline-flex h-7 w-12 items-center rounded-full transition-colors", checked ? "bg-primary-600" : "bg-ink-400")}>
+          <span className={cn("inline-block size-5.5 rounded-full bg-white shadow-xs transition-transform", checked ? "translate-x-[1.375rem]" : "translate-x-[0.1875rem]")} />
+        </span>
       </button>
     </div>
   );

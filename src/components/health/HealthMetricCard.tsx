@@ -37,7 +37,7 @@ export function HealthMetricCard({ metric, className, compact = false, onClick, 
         <span className="text-small font-semibold text-ink-700">{metric.label}</span>
       </div>
       <p className="mt-3 flex items-baseline gap-1">
-        <span className="text-[1.625rem] leading-none font-bold tracking-tight text-ink-900 tabular-nums">{metric.value}</span>
+        <span className="text-stat-lg leading-none font-bold tracking-tight text-ink-900 tabular-nums">{metric.value}</span>
         {metric.unit && <span className="text-small font-medium text-ink-500">{metric.unit}</span>}
       </p>
       {!compact && <Sparkline values={metric.trend} label={`${metric.label} trend, last 7 readings`} className="mt-2" />}

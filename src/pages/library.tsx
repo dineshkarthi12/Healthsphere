@@ -106,7 +106,7 @@ export function ArticlePage() {
           <h2 id="kt" className="font-bold">Key takeaways</h2>
           <ul className="mt-3 grid gap-2 sm:grid-cols-2">{a.keyTakeaways.map((k) => <li key={k} className="flex gap-2 text-small text-ink-800"><CheckCircle2 className="mt-0.5 size-4.5 shrink-0 text-success-700" aria-hidden="true" />{k}</li>)}</ul>
         </aside>
-        <div className="max-w-[68ch] space-y-6 text-[1.0625rem] leading-relaxed text-ink-800">
+        <div className="max-w-[68ch] space-y-6 text-title leading-relaxed text-ink-800">
           {a.body.map((sec, i) => (
             <section key={i}>
               {sec.heading && <h2 className="t-h3 mb-2">{sec.heading}</h2>}

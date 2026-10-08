@@ -176,7 +176,7 @@ function InCall({ doctorId, mic, cam, setMic, setCam, onEnd }: { doctorId: strin
               <span className="sr-only">{m.from === "me" ? "You" : doctor.name}: </span>
               {m.text}
               {m.attachment && <button onClick={() => setPanel("rx")} className="mt-2 flex w-full items-center gap-2 rounded-lg bg-white px-3 py-2 text-left font-semibold text-primary-700"><FileText className="size-4" aria-hidden="true" />{m.attachment}</button>}
-              <span className={cn("mt-1 block text-[0.6875rem]", m.from === "me" ? "text-primary-100" : "text-ink-500")}>{m.time}</span>
+              <span className={cn("mt-1 block text-micro", m.from === "me" ? "text-primary-100" : "text-ink-500")}>{m.time}</span>
             </li>
           ))}
         </ul>
@@ -237,7 +237,7 @@ function InCall({ doctorId, mic, cam, setMic, setCam, onEnd }: { doctorId: strin
           <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-3 py-1 text-caption font-semibold text-ink-800 shadow-xs">{doctor.name}</span>
           <div className="absolute top-3 right-3 flex aspect-[3/4] w-24 items-center justify-center overflow-hidden rounded-2xl border-2 border-white bg-gradient-to-b from-[#fde8d8] to-[#f9d5c1] shadow-raised sm:w-36">
             {cam ? <Avatar name={currentPatient.name} initials={currentPatient.initials} size={56} className="bg-white/80" /> : <CameraOff className="size-6 text-ink-500" aria-label="Your camera is off" />}
-            <span className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 text-[0.6875rem] font-semibold">You{!mic && " · muted"}</span>
+            <span className="absolute bottom-1.5 left-1.5 rounded-full bg-white/90 px-2 text-micro font-semibold">You{!mic && " · muted"}</span>
           </div>
         </div>
         <aside className="hidden w-[22rem] min-h-0 flex-col rounded-3xl border border-line bg-white p-4 shadow-card lg:flex" aria-label="Consultation tools">{panelBody}</aside>

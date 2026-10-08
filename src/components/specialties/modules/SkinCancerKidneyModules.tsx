@@ -33,7 +33,7 @@ export function SkinProfile() {
           {concerns.map((c) => {
             const on = picked.includes(c);
             return (
-              <button key={c} aria-pressed={on} onClick={() => setPicked((p) => (on ? p.filter((x) => x !== c) : [...p, c]))} className={cn("min-h-9 rounded-full border px-3 text-small font-medium", on ? "border-[color:var(--accent)] bg-accent-tint text-accent" : "border-line text-ink-600")}>{c}</button>
+              <button key={c} aria-pressed={on} onClick={() => setPicked((p) => (on ? p.filter((x) => x !== c) : [...p, c]))} className={cn("min-h-11 sm:min-h-9 rounded-full border px-3 text-small font-medium", on ? "border-[color:var(--accent)] bg-accent-tint text-accent" : "border-line text-ink-600")}>{c}</button>
             );
           })}
         </div>
@@ -91,7 +91,7 @@ export function OncologyPlan() {
         </Tabs>
       </ModuleCard>
       <ModuleCard title="Screening guide" subtitle="Early detection makes treatment simpler. Discuss timing with your doctor.">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Screening guide table">
           <table className="w-full text-left text-small">
             <caption className="sr-only">Recommended cancer screenings</caption>
             <thead><tr className="text-ink-500"><th scope="col" className="pb-2 font-semibold">Screening</th><th scope="col" className="pb-2 font-semibold">Who</th><th scope="col" className="pb-2 font-semibold">How often</th></tr></thead>
@@ -123,14 +123,14 @@ export function KidneyFunction() {
   return (
     <ModuleGrid>
       <ModuleCard title="Kidney function (eGFR)" subtitle="Example result · higher is better">
-        <p className="flex items-baseline gap-2"><span className="text-[2.5rem] leading-none font-bold tracking-tight">{egfr}</span><span className="text-small text-ink-500">mL/min/1.73m² · Stage 1 (normal)</span></p>
+        <p className="flex items-baseline gap-2"><span className="text-metric leading-none font-bold tracking-tight">{egfr}</span><span className="text-small text-ink-500">mL/min/1.73m² · Stage 1 (normal)</span></p>
         <ol className="mt-5 grid grid-cols-5 gap-1" aria-label="CKD stages">
           {stages.map((st, i) => (
             <li key={st.s} className="text-center">
               <div className={cn("h-2.5 rounded-full", i === 0 ? "bg-accent" : "bg-accent-tint")} aria-hidden="true" />
               <p className={cn("mt-1.5 text-caption font-bold", i === 0 ? "text-accent" : "text-ink-600")}>Stage {st.s}{i === 0 && <span className="sr-only"> (your result)</span>}</p>
-              <p className="text-[0.6875rem] text-ink-500">{st.range}</p>
-              <p className="text-[0.6875rem] text-ink-500">{st.label}</p>
+              <p className="text-micro text-ink-500">{st.range}</p>
+              <p className="text-micro text-ink-500">{st.label}</p>
             </li>
           ))}
         </ol>
@@ -140,7 +140,7 @@ export function KidneyFunction() {
         <div className="flex items-center gap-4">
           <Button variant="outline" size="icon" onClick={() => setGlasses((g) => Math.max(0, g - 1))} aria-label="Remove a glass"><Minus className="size-5" aria-hidden="true" /></Button>
           <div className="flex-1 text-center" aria-live="polite">
-            <p className="text-[2rem] leading-none font-bold tabular-nums">{glasses}<span className="text-body font-medium text-ink-500"> / {goal}</span></p>
+            <p className="text-metric leading-none font-bold tabular-nums">{glasses}<span className="text-body font-medium text-ink-500"> / {goal}</span></p>
             <p className="text-small text-ink-500">glasses today (~{(glasses * 0.25).toFixed(1)} L)</p>
           </div>
           <Button size="icon" onClick={() => setGlasses((g) => Math.min(20, g + 1))} aria-label="Add a glass" variant="accent"><Plus className="size-5" aria-hidden="true" /></Button>

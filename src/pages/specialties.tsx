@@ -28,7 +28,7 @@ export function Breadcrumbs({ items }: { items: { label: string; to?: string }[]
         {items.map((it, i) => (
           <li key={it.label} className="flex items-center gap-1">
             {i > 0 && <ChevronRight className="size-3.5" aria-hidden="true" />}
-            {it.to ? <Link to={it.to} className="rounded hover:text-primary-700">{it.label}</Link> : <span aria-current="page" className="font-medium text-ink-800">{it.label}</span>}
+            {it.to ? <Link to={it.to} className="inline-flex min-h-11 items-center rounded hover:text-primary-700 sm:min-h-0">{it.label}</Link> : <span aria-current="page" className="font-medium text-ink-800">{it.label}</span>}
           </li>
         ))}
       </ol>
@@ -57,6 +57,7 @@ export function SpecialtiesPage() {
         <SearchBar value={q} onChange={setQ} placeholder="Search a specialty, condition or specialist…" label="Filter specialties" />
       </div>
 
+      <h2 className="sr-only">All specialties</h2>
       <p className="sr-only" aria-live="polite">{list.length} specialties shown</p>
       {list.length ? (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -121,7 +122,7 @@ export function SpecialtyPage() {
                 {spec.stats.map((s) => (
                   <div key={s.label}>
                     <dt className="text-caption text-ink-500">{s.label}</dt>
-                    <dd className="text-[1.5rem] font-bold tracking-tight text-ink-900">{s.value}</dd>
+                    <dd className="text-stat font-bold tracking-tight text-ink-900">{s.value}</dd>
                   </div>
                 ))}
               </dl>

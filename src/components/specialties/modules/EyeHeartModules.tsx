@@ -87,7 +87,7 @@ export function HeartOverview() {
       <ModuleCard title="Heart Health Overview" subtitle="Synced from your BP monitor · Today 8:40 AM" action={{ label: "Insights", to: "/insights" }}>
         <div className="flex items-center gap-5">
           <ProgressRing value={72} size={104} stroke={8} label="Resting heart rate 72 of 100 bpm">
-            <span className="text-center leading-tight"><span className="block text-[1.75rem] font-bold">72</span><span className="block text-caption font-medium text-ink-500">bpm</span></span>
+            <span className="text-center leading-tight"><span className="block text-stat-lg font-bold">72</span><span className="block text-caption font-medium text-ink-500">bpm</span></span>
           </ProgressRing>
           <div className="grid flex-1 grid-cols-1 gap-3 xs:grid-cols-2">
             <Stat label="Blood pressure" value="118/76" hint="mmHg · normal" />

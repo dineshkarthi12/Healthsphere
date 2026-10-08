@@ -21,7 +21,7 @@ export function DoctorCard({ doctor, className }: { doctor: Doctor; className?: 
         <Avatar name={doctor.name} initials={doctor.initials} photo={doctor.photo} size={76} className="rounded-2xl" />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <h3 id={`doc-${doctor.id}`} className="text-[1.0625rem] font-bold text-ink-900">
+            <h3 id={`doc-${doctor.id}`} className="text-title font-bold text-ink-900">
               <Link to={`/doctors/${doctor.id}`} className="hover:text-primary-700 after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">
                 {doctor.name}
               </Link>

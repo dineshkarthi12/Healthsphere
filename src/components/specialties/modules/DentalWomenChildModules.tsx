@@ -34,7 +34,7 @@ export function DentalChart() {
   const [sel, setSel] = useState<number>(26);
   const info = chart[sel] ?? { state: "healthy" as ToothState, note: "No issues recorded at your last check-up." };
   const Row = ({ teeth }: { teeth: number[] }) => (
-    <div className="grid grid-cols-16 gap-0.5 sm:gap-1">
+    <div className="grid grid-cols-8 gap-1.5 sm:grid-cols-16 sm:gap-1">
       {teeth.map((n) => {
         const st = chart[n]?.state ?? "healthy";
         return (
@@ -43,7 +43,7 @@ export function DentalChart() {
             onClick={() => setSel(n)}
             aria-pressed={sel === n}
             aria-label={`${toothName(n)}: ${toothStyle[st].label}`}
-            className={cn("flex h-10 items-center justify-center rounded-md border text-[0.625rem] font-bold transition-transform sm:h-12 sm:text-caption", toothStyle[st].cls, sel === n && "ring-2 ring-[color:var(--accent)] ring-offset-1 scale-105")}
+            className={cn("flex h-11 items-center justify-center rounded-md border text-caption font-bold transition-transform sm:h-12", toothStyle[st].cls, sel === n && "ring-2 ring-[color:var(--accent)] ring-offset-1 scale-105")}
           >
             {n}
           </button>
@@ -132,13 +132,13 @@ export function WomensTracker() {
             <div>
               <div className="grid grid-cols-7 gap-1.5" role="list" aria-label="Cycle calendar, next 35 days">
                 {days.map(({ d, kind, ovulation }) => (
-                  <div key={d.toISOString()} role="listitem" aria-label={`${d.toDateString()}${kind === "period" ? ", period" : kind === "fertile" ? ", fertile window" : ""}${ovulation ? ", likely ovulation" : ""}`} className={cn("flex aspect-square flex-col items-center justify-center rounded-lg text-caption font-semibold", kind === "period" ? "bg-accent text-white" : kind === "fertile" ? "bg-accent-tint text-accent" : "bg-subtle text-ink-600", ovulation && "ring-2 ring-[color:var(--accent)]")}>
+                  <div key={d.toISOString()} role="listitem" aria-label={`${d.toDateString()}${kind === "period" ? ", period" : kind === "fertile" ? ", fertile window" : ""}${ovulation ? ", likely ovulation" : ""}`} className={cn("flex aspect-square flex-col items-center justify-center rounded-lg text-caption font-semibold", kind === "period" ? "bg-accent-ink text-white" : kind === "fertile" ? "bg-accent-tint text-accent" : "bg-subtle text-ink-600", ovulation && "ring-2 ring-[color:var(--accent)]")}>
                     {d.getDate()}
                   </div>
                 ))}
               </div>
               <ul className="mt-3 flex flex-wrap gap-4 text-caption text-ink-600" aria-hidden="true">
-                <li className="flex items-center gap-1.5"><span className="size-3 rounded bg-accent" />Period</li>
+                <li className="flex items-center gap-1.5"><span className="size-3 rounded bg-accent-ink" />Period</li>
                 <li className="flex items-center gap-1.5"><span className="size-3 rounded bg-accent-tint" />Fertile window</li>
                 <li className="flex items-center gap-1.5"><span className="size-3 rounded ring-2 ring-[color:var(--accent)]" />Likely ovulation</li>
               </ul>
@@ -154,7 +154,7 @@ export function WomensTracker() {
               </label>
               <div className="mt-3 rounded-xl bg-accent-tint/60 p-4" aria-live="polite">
                 <p className="text-small text-ink-600">Trimester {week < 14 ? 1 : week < 28 ? 2 : 3}</p>
-                <p className="mt-1 text-[1.25rem] font-bold">Your baby is about the size of {size.size}</p>
+                <p className="mt-1 text-h3 font-bold">Your baby is about the size of {size.size}</p>
                 <p className="text-small text-ink-600">Approx. {size.cm}</p>
               </div>
             </div>

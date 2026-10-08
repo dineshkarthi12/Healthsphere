@@ -66,7 +66,7 @@ function AppointmentRows({ rows, compact = false }: { rows: PortalAppointment[];
             <span className="w-[4.5rem] shrink-0 text-small font-semibold text-ink-700 tabular-nums">{a.time}</span>
             <Avatar name={p.name} initials={p.initials} size={36} />
             <span className="min-w-0 flex-1">
-              <Link to={`/doctor/patients/${p.id}`} className="block truncate text-small font-semibold text-ink-900 hover:text-primary-700">{p.name}</Link>
+              <Link to={`/doctor/patients/${p.id}`} className="block truncate py-1 text-small font-semibold text-ink-900 hover:text-primary-700">{p.name}</Link>
               <span className="block truncate text-caption text-ink-500">{a.reason}</span>
             </span>
             <span className={cn("hidden rounded-full px-2.5 py-0.5 text-caption font-semibold sm:inline", typeTone[a.type])}>{a.type}</span>
@@ -108,7 +108,7 @@ export function DoctorDashboard() {
             <ColumnChart title="Patient visits per day this week" labels={portalWeeklyVisits.labels} series={[{ name: "Visits", values: portalWeeklyVisits.values }]} height={170} />
             <div className="mt-3 flex items-center justify-between rounded-xl bg-subtle px-4 py-3">
               <span className="text-small text-ink-600">Patient satisfaction</span>
-              <span className="text-[1.25rem] font-bold">4.9<span className="text-small font-medium text-ink-500"> / 5</span></span>
+              <span className="text-h3 font-bold">4.9<span className="text-small font-medium text-ink-500"> / 5</span></span>
             </div>
           </Panel>
           <Panel title="Quick actions">
@@ -165,10 +165,16 @@ export function DoctorAppointments() {
           <TabsTrigger value="all">All ({portalTodayAppointments.length})</TabsTrigger>
           {(["checked-in", "waiting", "scheduled", "completed"] as const).map((s) => <TabsTrigger key={s} value={s}>{apptStatus[s].label} ({portalTodayAppointments.filter((a) => a.status === s).length})</TabsTrigger>)}
         </TabsList>
+        {(["all", "checked-in", "waiting", "scheduled", "completed"] as const).map((v) => (
+          <TabsContent key={v} value={v}>
+            {v === filter && (
+              <div className="card px-5 py-2">
+                {rows.length ? <AppointmentRows rows={rows} /> : <EmptyState className="my-4 border-0" icon={CalendarClock} title="No appointments with this status" />}
+              </div>
+            )}
+          </TabsContent>
+        ))}
       </Tabs>
-      <div className="card px-5 py-2">
-        {rows.length ? <AppointmentRows rows={rows} /> : <EmptyState className="my-4 border-0" icon={CalendarClock} title="No appointments with this status" />}
-      </div>
     </>
   );
 }

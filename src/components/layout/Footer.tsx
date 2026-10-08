@@ -48,7 +48,7 @@ export function Footer() {
           <ul className="grid grid-cols-2 gap-x-4 gap-y-1 md:grid-cols-1">
             {specialties.slice(0, 8).map((s) => (
               <li key={s.slug}>
-                <Link to={`/specialties/${s.slug}`} className="inline-flex min-h-9 items-center text-small text-ink-700 hover:text-primary-700">
+                <Link to={`/specialties/${s.slug}`} className="inline-flex min-h-11 sm:min-h-9 items-center text-small text-ink-700 hover:text-primary-700">
                   {s.name}
                 </Link>
               </li>
@@ -62,7 +62,7 @@ export function Footer() {
             <ul className="space-y-1">
               {c.links.map((l) => (
                 <li key={l.to}>
-                  <Link to={l.to} className="inline-flex min-h-9 items-center text-small text-ink-700 hover:text-primary-700">
+                  <Link to={l.to} className="inline-flex min-h-11 sm:min-h-9 items-center text-small text-ink-700 hover:text-primary-700">
                     {l.label}
                   </Link>
                 </li>

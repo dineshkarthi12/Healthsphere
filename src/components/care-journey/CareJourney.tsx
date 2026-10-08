@@ -57,7 +57,7 @@ export function JourneyStepper({ stages, className, label }: { stages: (Pick<Jou
             />
           )}
           <StageNode status={s.status} size="sm" />
-          <span className={cn("mt-2 px-0.5 text-[0.6875rem] leading-tight font-semibold sm:text-caption", s.status === "upcoming" ? "text-ink-500" : "text-ink-800", dense && s.status !== "current" && "sr-only sm:not-sr-only")}>{s.title}</span>
+          <span className={cn("mt-2 px-0.5 text-micro leading-tight font-semibold sm:text-caption", s.status === "upcoming" ? "text-ink-500" : "text-ink-800", dense && s.status !== "current" && "sr-only sm:not-sr-only")}>{s.title}</span>
           <span className="sr-only">: {statusText[s.status]}</span>
         </li>
       ))}
@@ -75,7 +75,7 @@ export function JourneyCard({ journey, className, variant = "default" }: { journ
         <IconTile icon={spec.icon} size="md" />
         <div className="min-w-0 flex-1">
           <p className="text-caption font-semibold text-accent">{spec.name}</p>
-          <h3 id={`jt-${journey.id}`} className="text-[1.0625rem] font-bold text-ink-900">{journey.title}</h3>
+          <h3 id={`jt-${journey.id}`} className="text-title font-bold text-ink-900">{journey.title}</h3>
           <p className="truncate text-small text-ink-500">{doctor?.name} · {journey.condition}</p>
         </div>
         <ProgressRing value={journey.progress} size={56} stroke={5} label={`${journey.title} progress`} />
@@ -179,7 +179,7 @@ export function JourneyTimeline({ journey }: { journey: Journey }) {
                   {stage.documents.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {stage.documents.map((d) => (
-                        <Link key={d.title} to={d.recordId ? `/records?open=${d.recordId}` : "/records"} className="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-line bg-white px-3 text-small font-medium text-ink-700 hover:border-primary-300 hover:text-primary-700">
+                        <Link key={d.title} to={d.recordId ? `/records?open=${d.recordId}` : "/records"} className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-lg border border-line bg-white px-3 text-small font-medium text-ink-700 hover:border-primary-300 hover:text-primary-700">
                           <FileText className="size-4 text-accent" aria-hidden="true" /> {d.title}
                         </Link>
                       ))}

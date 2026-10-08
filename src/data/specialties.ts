@@ -294,7 +294,7 @@ export const specialties: Specialty[] = [
     description:
       "Medical and aesthetic dermatology for acne, pigmentation, eczema, hair and nail concerns — evidence-based treatments with visible progress tracking.",
     icon: "SkinLayers",
-    tone: { color: "#ee7a24", tint: "#fef0e4", ink: "#b2560f" },
+    tone: { color: "#d96612", tint: "#fef0e4", ink: "#a14c0b" },
     image: { name: "skin-care-specialty", alt: "Dermatologist explaining a skin layer model with close-ups of skin conditions", focus: "45% 35%" },
     module: "skin-profile",
     quickActions: [

@@ -41,7 +41,7 @@ export function Stat({ label, value, hint, className }: { label: string; value: 
   return (
     <div className={cn("rounded-xl border border-line bg-white p-3.5", className)}>
       <p className="text-caption font-semibold text-ink-500">{label}</p>
-      <p className="mt-1 text-[1.375rem] leading-none font-bold tracking-tight text-ink-900">{value}</p>
+      <p className="mt-1 text-stat leading-none font-bold tracking-tight text-ink-900">{value}</p>
       {hint && <p className="mt-1.5 text-caption text-ink-500">{hint}</p>}
     </div>
   );

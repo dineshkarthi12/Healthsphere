@@ -26,7 +26,7 @@ export function StatTile({ label, value, icon, delta, deltaGood = true, hint, to
         <span className="accent-icon inline-flex size-9 items-center justify-center rounded-lg"><Icon className="size-4.5" aria-hidden="true" /></span>
         <p className="text-small font-semibold text-ink-600">{label}</p>
       </div>
-      <p className="mt-3 text-[1.75rem] leading-none font-bold tracking-tight text-ink-900 tabular-nums">{value}</p>
+      <p className="mt-3 text-stat-lg leading-none font-bold tracking-tight text-ink-900 tabular-nums">{value}</p>
       <div className="mt-2 flex items-center gap-1.5 text-caption">
         {delta !== undefined && (
           <span className={cn("inline-flex items-center gap-0.5 font-semibold", good ? "text-success-700" : "text-danger-700")}>
@@ -45,7 +45,7 @@ export function Panel({ title, action, children, className, bodyClassName }: { t
     <section className={cn("card flex flex-col", className)} aria-label={title}>
       <div className="flex items-center justify-between gap-3 px-5 pt-4 pb-2">
         <h2 className="font-bold text-ink-900">{title}</h2>
-        {action && <Link to={action.to} className="inline-flex min-h-9 items-center gap-1 text-small font-semibold text-primary-700 hover:underline">{action.label}<ArrowRight className="size-3.5" aria-hidden="true" /></Link>}
+        {action && <Link to={action.to} className="inline-flex min-h-11 sm:min-h-9 items-center gap-1 text-small font-semibold text-primary-700 hover:underline">{action.label}<ArrowRight className="size-3.5" aria-hidden="true" /></Link>}
       </div>
       <div className={cn("flex-1 px-5 pb-5", bodyClassName)}>{children}</div>
     </section>

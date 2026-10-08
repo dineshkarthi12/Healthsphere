@@ -23,7 +23,7 @@ export function MobileBottomNav() {
               <NavLink
                 to={to}
                 aria-current={active ? "page" : undefined}
-                className={cn("flex h-full flex-col items-center justify-center gap-1 text-[0.6875rem] font-semibold transition-colors", active ? "text-primary-700" : "text-ink-500 hover:text-ink-800")}
+                className={cn("flex h-full flex-col items-center justify-center gap-1 text-micro font-semibold transition-colors", active ? "text-primary-700" : "text-ink-500 hover:text-ink-800")}
               >
                 <span className={cn("inline-flex h-7 w-12 items-center justify-center rounded-full transition-colors", active && "bg-primary-50")}>
                   <Icon className="size-5.5" strokeWidth={active ? 2.3 : 2} aria-hidden="true" />

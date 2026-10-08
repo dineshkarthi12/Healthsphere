@@ -85,7 +85,7 @@ export function CarePage() {
             <div className="mb-5 grid gap-3 sm:grid-cols-3">
               <div className="card flex items-center gap-4 p-4">
                 <IconTile icon="Activity" />
-                <div><p className="text-[1.5rem] leading-none font-bold">{active.length}</p><p className="text-small text-ink-500">Active journeys</p></div>
+                <div><p className="text-stat leading-none font-bold">{active.length}</p><p className="text-small text-ink-500">Active journeys</p></div>
               </div>
               <div className="card flex items-center gap-4 p-4">
                 <IconTile icon="CalendarClock" />
@@ -93,7 +93,7 @@ export function CarePage() {
               </div>
               <div className="card flex items-center gap-4 p-4">
                 <IconTile icon="FileText" />
-                <div><p className="text-[1.5rem] leading-none font-bold">9</p><p className="text-small text-ink-500">Documents in your journeys</p></div>
+                <div><p className="text-stat leading-none font-bold">9</p><p className="text-small text-ink-500">Documents in your journeys</p></div>
               </div>
             </div>
             <div className="grid gap-4 lg:grid-cols-2">
@@ -224,7 +224,7 @@ function JourneyDetail({ id }: { id: string }) {
           <Breadcrumbs items={[{ label: "My Care", to: "/care" }, { label: j.title }]} />
           <div className="card flex flex-col gap-6 p-5 sm:p-7 md:flex-row md:items-center">
             <ProgressRing value={j.progress} size={112} stroke={9} label={`${j.title} progress`}>
-              <span className="text-center leading-tight"><span className="block text-[1.75rem] font-bold">{j.progress}%</span><span className="block text-caption text-ink-500">complete</span></span>
+              <span className="text-center leading-tight"><span className="block text-stat-lg font-bold">{j.progress}%</span><span className="block text-caption text-ink-500">complete</span></span>
             </ProgressRing>
             <div className="min-w-0 flex-1">
               <p className="flex items-center gap-2 text-small font-semibold text-accent"><IconTile icon={spec.icon} size="sm" />{spec.name} · My Care Journey</p>

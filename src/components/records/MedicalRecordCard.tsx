@@ -85,7 +85,7 @@ export function RecordViewer({ record, onOpenChange }: { record: MedicalRecord |
         {record.status && <StatusBadge status={record.status} />}
         <p className="text-body text-ink-800">{record.summary}</p>
         {record.findings && (
-          <div className="overflow-x-auto rounded-xl border border-line">
+          <div className="overflow-x-auto rounded-xl border border-line" tabIndex={0} role="region" aria-label={`Results table for ${record.title}`}>
             <table className="w-full text-left text-small">
               <caption className="sr-only">Results for {record.title}</caption>
               <thead className="bg-subtle text-ink-600">

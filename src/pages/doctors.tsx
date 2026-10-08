@@ -158,7 +158,7 @@ export function DoctorsPage() {
           <div className="card sticky top-24 p-5">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="font-bold">Filters</h2>
-              {activeCount > 0 && <button onClick={f.clear} className="min-h-9 text-small font-semibold text-primary-700 hover:underline">Clear all</button>}
+              {activeCount > 0 && <button onClick={f.clear} className="min-h-11 sm:min-h-9 text-small font-semibold text-primary-700 hover:underline">Clear all</button>}
             </div>
             <FilterFields f={f} />
           </div>
@@ -175,7 +175,7 @@ export function DoctorsPage() {
               </Button>
               <label className="flex items-center gap-2 text-small text-ink-600">
                 <span className="hidden sm:inline">Sort by</span>
-                <Select value={sort} onChange={(e) => f.set("sort", e.target.value === "relevance" ? "" : e.target.value)} className="h-9 w-auto py-0 text-small" aria-label="Sort doctors">
+                <Select value={sort} onChange={(e) => f.set("sort", e.target.value === "relevance" ? "" : e.target.value)} className="h-11 w-auto py-0 text-small sm:h-9" aria-label="Sort doctors">
                   <option value="relevance">Relevance</option>
                   <option value="rating">Highest rated</option>
                   <option value="experience">Most experienced</option>
@@ -190,7 +190,7 @@ export function DoctorsPage() {
             <ul className="mb-4 flex flex-wrap gap-2" aria-label="Active filters">
               {["specialty", "sub", "exp", "type", "avail", "lang", "hospital", "gender"].filter((k) => f.get(k)).map((k) => (
                 <li key={k}>
-                  <button onClick={() => f.set(k, "")} className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-primary-50 px-3 text-small font-semibold text-primary-700 hover:bg-primary-100" aria-label={`Remove filter ${chipLabel(k, f.get(k))}`}>
+                  <button onClick={() => f.set(k, "")} className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-full bg-primary-50 px-3 text-small font-semibold text-primary-700 hover:bg-primary-100" aria-label={`Remove filter ${chipLabel(k, f.get(k))}`}>
                     {chipLabel(k, f.get(k))} <X className="size-3.5" aria-hidden="true" />
                   </button>
                 </li>
@@ -198,6 +198,7 @@ export function DoctorsPage() {
             </ul>
           )}
 
+          <h2 className="sr-only">Doctors</h2>
           {status === "loading" && <LoadingState label="Finding doctors" rows={4} />}
           {status === "error" && <ErrorState onRetry={retry} />}
           {status === "success" && data!.length === 0 && (
@@ -301,7 +302,7 @@ export function DoctorProfilePage() {
                 ].map(({ k, v, i: Icon }) => (
                   <div key={k} className="rounded-xl bg-subtle px-3 py-2.5 text-left">
                     <dt className="flex items-center gap-1.5 text-caption text-ink-500"><Icon className="size-3.5" aria-hidden="true" />{k}</dt>
-                    <dd className="text-[1.125rem] font-bold text-ink-900">{v}</dd>
+                    <dd className="text-lead font-bold text-ink-900">{v}</dd>
                   </div>
                 ))}
               </dl>
@@ -337,9 +338,9 @@ export function DoctorProfilePage() {
             <section className="card p-6">
               <h2 className="t-h3 mb-4">Consultation fees</h2>
               <ul className="grid grid-cols-3 gap-2 sm:gap-3">
-                <li className="rounded-xl border border-line p-3 sm:p-4"><Building2 className="size-5 text-accent" aria-hidden="true" /><p className="mt-2 text-small text-ink-500">In-person</p><p className="text-[1.25rem] font-bold">{formatINR(doctor.fee.inPerson)}</p></li>
-                <li className="rounded-xl border border-line p-3 sm:p-4"><Video className="size-5 text-accent" aria-hidden="true" /><p className="mt-2 text-small text-ink-500">Video</p><p className="text-[1.25rem] font-bold">{formatINR(doctor.fee.video)}</p></li>
-                <li className={cn("rounded-xl border border-line p-3 sm:p-4", !doctor.fee.homeVisit && "opacity-60")}><MapPin className="size-5 text-accent" aria-hidden="true" /><p className="mt-2 text-small text-ink-500">Home visit</p><p className="text-[1.25rem] font-bold">{doctor.fee.homeVisit ? formatINR(doctor.fee.homeVisit) : "Not offered"}</p></li>
+                <li className="rounded-xl border border-line p-3 sm:p-4"><Building2 className="size-5 text-accent" aria-hidden="true" /><p className="mt-2 text-small text-ink-500">In-person</p><p className="text-h3 font-bold">{formatINR(doctor.fee.inPerson)}</p></li>
+                <li className="rounded-xl border border-line p-3 sm:p-4"><Video className="size-5 text-accent" aria-hidden="true" /><p className="mt-2 text-small text-ink-500">Video</p><p className="text-h3 font-bold">{formatINR(doctor.fee.video)}</p></li>
+                <li className={cn("rounded-xl border border-line p-3 sm:p-4", !doctor.fee.homeVisit && "border-dashed bg-subtle/60")}><MapPin className="size-5 text-accent" aria-hidden="true" /><p className="mt-2 text-small text-ink-500">Home visit</p><p className={cn("font-bold", doctor.fee.homeVisit ? "text-h3" : "text-small text-ink-600")}>{doctor.fee.homeVisit ? formatINR(doctor.fee.homeVisit) : "Not offered"}</p></li>
               </ul>
             </section>
           </TabsContent>
@@ -390,7 +391,7 @@ export function DoctorProfilePage() {
             <section className="card p-6">
               <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
                 <div className="text-center sm:w-40">
-                  <p className="text-[3rem] leading-none font-bold">{doctor.rating}</p>
+                  <p className="text-metric leading-none font-bold">{doctor.rating}</p>
                   <Rating value={doctor.rating} className="justify-center" />
                   <p className="mt-1 text-caption text-ink-500">{doctor.reviewCount.toLocaleString("en-IN")} reviews</p>
                 </div>
@@ -412,7 +413,7 @@ export function DoctorProfilePage() {
                       <span className="text-caption text-ink-500">{formatDate(r.date)}</span>
                     </div>
                     <div className="mt-1 flex items-center gap-2">
-                      <span className="flex" aria-label={`${r.rating} out of 5 stars`}>{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={cn("size-4", i < r.rating ? "fill-amber-400 text-amber-400" : "text-ink-300")} aria-hidden="true" />)}</span>
+                      <span className="flex" role="img" aria-label={`${r.rating} out of 5 stars`}>{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={cn("size-4", i < r.rating ? "fill-amber-400 text-amber-400" : "text-ink-300")} aria-hidden="true" />)}</span>
                       {r.verifiedVisit && <span className="text-caption font-semibold text-success-700">Completed visit</span>}
                     </div>
                     <p className="mt-2 text-ink-700">{r.text}</p>
@@ -519,6 +520,7 @@ export function HospitalsPage() {
             </button>
           </div>
         </div>
+        <h2 className="sr-only">Hospitals and centres</h2>
         <p className="mb-4 text-small text-ink-600" aria-live="polite"><strong className="text-ink-900">{list.length}</strong> facilities</p>
         {list.length ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{list.map((h) => <HospitalCard key={h.id} hospital={h} />)}</div>
@@ -601,7 +603,7 @@ export function HospitalPage() {
               {h.reviews.map((r) => (
                 <li key={r.id} className="card p-5">
                   <div className="flex items-center justify-between"><p className="font-semibold">{r.author}</p><span className="text-caption text-ink-500">{formatDate(r.date)}</span></div>
-                  <span className="mt-1 flex" aria-label={`${r.rating} out of 5 stars`}>{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={cn("size-4", i < r.rating ? "fill-amber-400 text-amber-400" : "text-ink-300")} aria-hidden="true" />)}</span>
+                  <span className="mt-1 flex" role="img" aria-label={`${r.rating} out of 5 stars`}>{Array.from({ length: 5 }).map((_, i) => <Star key={i} className={cn("size-4", i < r.rating ? "fill-amber-400 text-amber-400" : "text-ink-300")} aria-hidden="true" />)}</span>
                   <p className="mt-2 text-ink-700">{r.text}</p>
                 </li>
               ))}
