@@ -18,6 +18,7 @@ Steps
 
 Requires: Pillow (with WebP), numpy, scipy.
 """
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -49,7 +50,7 @@ FLATTEN = {
 AVATARS = {"doctor-profile-female", "doctor-profile-male", "doctor-female-portrait", "doctor-male-portrait"}
 
 
-def remove_checkerboard(img: Image.Image) -> Image.Image:
+def remove_checkerboard(img: Image.Image, flatten_target: bool = False) -> Image.Image:
     rgb = np.asarray(img.convert("RGB")).astype(np.int16)
     v = rgb.mean(axis=2)
     sat = rgb.max(axis=2) - rgb.min(axis=2)
@@ -87,6 +88,16 @@ def remove_checkerboard(img: Image.Image) -> Image.Image:
     # Grow into the fringe the texture window misses, but only over exact checker tones.
     exact = (sat <= 7) & ((v >= 246) | ((v >= 188) & (v <= 224)))
     background = ndimage.binary_dilation(background, iterations=26, mask=exact | background)
+
+    # Residual squares trapped between hair strands etc.: within a band around the
+    # background, neutral grey pixels are almost certainly checkerboard (hair is far
+    # darker, coats far brighter). For images that get flattened onto a near-white
+    # backdrop, leftover white squares can go too — the change is invisible.
+    band = ndimage.binary_dilation(background, iterations=40) & ~background
+    resid = band & (sat <= 8) & (v >= 186) & (v <= 228)
+    if flatten_target:
+        resid |= band & (sat <= 6) & (v >= 244)
+    background |= ndimage.binary_dilation(resid, iterations=1) & band
 
     # Drop speckles: small foreground islands inside the background.
     fg_labels, fg_n = ndimage.label(~background)
@@ -139,12 +150,15 @@ def save(img: Image.Image, name: str, widths=WIDTHS):
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
+    only = set(sys.argv[1:])
     for path in sorted(SRC.glob("*.png")):
         name = path.stem
+        if only and name not in only:
+            continue
         img = Image.open(path)
         img = img.convert("RGBA") if img.mode in ("RGBA", "LA", "P") else img.convert("RGB")
         if name in CHECKERBOARD:
-            img = remove_checkerboard(img)
+            img = remove_checkerboard(img, flatten_target=name in FLATTEN)
         if name in FLATTEN and img.mode == "RGBA":
             img = flatten(img, *FLATTEN[name])
         save(img, name)

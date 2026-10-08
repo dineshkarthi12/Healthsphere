@@ -266,4 +266,5 @@
 @utility text-accent { color: var(--accent-ink); }
 @utility bg-accent { background: var(--accent); }
 @utility bg-accent-tint { background: var(--accent-tint); }
+@utility bg-accent-ink { background: var(--accent-ink); }
 @utility border-accent { border-color: var(--accent); }

@@ -57,7 +57,7 @@ export function Modal({ open, onOpenChange, title, description, children, footer
 
 /* ================================================================== Tabs */
 
-export const Tabs = RTabs.Root;
+export const Tabs = ({ className, ...props }: RTabs.TabsProps) => <RTabs.Root className={cn("min-w-0", className)} {...props} />;
 export const TabsContent = (props: RTabs.TabsContentProps) => (
   <RTabs.Content {...props} className={cn("focus-visible:outline-none data-[state=active]:animate-fade-in", props.className)} />
 );

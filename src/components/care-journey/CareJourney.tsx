@@ -201,17 +201,17 @@ export function JourneyTimeline({ journey }: { journey: Journey }) {
 /* --------------------------------------------- template (specialty pages) */
 export function JourneyTemplate({ stages, className }: { stages: JourneyTemplateStage[]; className?: string }) {
   return (
-    <ol className={cn("grid gap-0 md:grid-flow-col md:auto-cols-fr", className)}>
+    <ol className={cn("grid gap-0 lg:grid-flow-col lg:auto-cols-fr", className)}>
       {stages.map((s, i) => (
-        <li key={s.title} className="relative flex gap-4 pb-6 md:flex-col md:items-center md:px-2 md:pb-0 md:text-center">
+        <li key={s.title} className="relative flex gap-4 pb-6 lg:flex-col lg:items-center lg:px-2 lg:pb-0 lg:text-center">
           {i < stages.length - 1 && (
             <>
-              <span className="absolute top-9 bottom-0 left-[17px] w-0.5 bg-accent-tint md:hidden" aria-hidden="true" />
-              <span className="absolute top-[18px] left-1/2 hidden h-0.5 w-full bg-accent-tint md:block" aria-hidden="true" />
+              <span className="absolute top-9 bottom-0 left-[17px] w-0.5 bg-accent-tint lg:hidden" aria-hidden="true" />
+              <span className="absolute top-[18px] left-1/2 hidden h-0.5 w-full bg-accent-tint lg:block" aria-hidden="true" />
             </>
           )}
           <StageNode status="template" index={i} />
-          <div className="md:mt-3">
+          <div className="lg:mt-3">
             <p className="font-bold text-ink-900">{s.title}</p>
             <p className="mt-0.5 text-small text-ink-500">{s.description}</p>
           </div>
