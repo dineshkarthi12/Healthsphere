@@ -23,8 +23,9 @@ export const formatINR = (n: number) => inr.format(n);
 const num = new Intl.NumberFormat("en-IN");
 export const formatNumber = (n: number) => num.format(n);
 
+/** 1.2K / 3.4M — en-IN's compact form ("1.2T" for thousand) reads ambiguously. */
 export const compact = (n: number) =>
-  new Intl.NumberFormat("en-IN", { notation: "compact", maximumFractionDigits: 1 }).format(n);
+  new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(n);
 
 /** All clinical times are shown in the hospitals' timezone (IST). */
 export const TZ = "Asia/Kolkata";
