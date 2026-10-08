@@ -97,3 +97,46 @@ export function NextAppointmentLink({ appointment }: { appointment: Appointment 
     </Link>
   );
 }
+
+/** Prominent "next appointment" card for the patient home/dashboard. */
+export function NextAppointmentCard({ appointment, className }: { appointment: Appointment; className?: string }) {
+  const doctor = getDoctor(appointment.doctorId)!;
+  const hospital = getHospital(appointment.hospitalId);
+  const T = typeMeta[appointment.type];
+  const when = relativeDay(appointment.date);
+  const isToday = when === "Today";
+  return (
+    <section aria-labelledby="next-appt-title" className={cn("relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 to-primary-700 p-5 text-white shadow-raised sm:p-6", className)}>
+      <div aria-hidden="true" className="pointer-events-none absolute -top-16 -right-16 size-48 rounded-full bg-white/10" />
+      <p id="next-appt-title" className="t-eyebrow text-primary-100">Next appointment</p>
+      <p className="mt-2 text-stat font-bold tracking-tight">
+        {when}{when.includes(" ") ? "" : `, ${formatDate(appointment.date, { day: "numeric", month: "short" })}`} · {formatTime(appointment.date)}
+      </p>
+      <div className="mt-4 flex items-center gap-3">
+        <Avatar name={doctor.name} initials={doctor.initials} photo={doctor.photo} size={48} className="ring-2 ring-white/40" />
+        <div className="min-w-0">
+          <p className="truncate font-semibold">{doctor.name}</p>
+          <p className="truncate text-small text-primary-100">{doctor.title} · {appointment.reason}</p>
+        </div>
+      </div>
+      <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-1 text-caption font-semibold">
+        <T.icon className="size-3.5" aria-hidden="true" />
+        {T.label}{appointment.type === "in-person" && hospital ? ` · ${hospital.shortName}` : ""}
+      </p>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {appointment.type === "video" ? (
+          <ButtonLink to={`/consultation/${appointment.id}`} variant="white" size="sm">
+            <Video className="size-4" aria-hidden="true" /> {isToday ? "Join video call" : "Video details"}
+          </ButtonLink>
+        ) : (
+          <ButtonLink to={appointment.journeyId ? `/care/journey/${appointment.journeyId}` : "/appointments"} variant="white" size="sm">
+            {appointment.journeyId ? "View care journey" : "View details"}
+          </ButtonLink>
+        )}
+        <ButtonLink to="/appointments" size="sm" className="bg-white/15 text-white shadow-none hover:bg-white/25">
+          Manage
+        </ButtonLink>
+      </div>
+    </section>
+  );
+}

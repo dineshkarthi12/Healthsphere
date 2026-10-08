@@ -11,6 +11,7 @@ import {
   FileText,
   FolderHeart,
   Headphones,
+  HeartPulse,
   MapPin,
   Phone,
   Pill,
@@ -33,7 +34,7 @@ import { currentPatient, healthMetrics } from "@/data/patient";
 import { SpecialtyTile, MoreSpecialtiesTile } from "@/components/specialties/SpecialtyCard";
 import { DoctorMiniCard } from "@/components/doctors/DoctorCard";
 import { HospitalCard } from "@/components/health/HospitalCard";
-import { AppointmentCard } from "@/components/appointments/AppointmentCard";
+import { NextAppointmentCard } from "@/components/appointments/AppointmentCard";
 import { JourneyCard } from "@/components/care-journey/CareJourney";
 import { HealthMetricCard } from "@/components/health/HealthMetricCard";
 import { ArticleCard } from "@/components/health/ArticleCard";
@@ -78,6 +79,7 @@ const journeyStages = [
   { title: "Treatment", text: "A plan you understand", icon: Pill },
   { title: "Recovery", text: "Guided day-by-day support", icon: ShieldCheck },
   { title: "Follow-up", text: "Reminders that keep you on track", icon: CalendarCheck2 },
+  { title: "Long-term Care", text: "Ongoing monitoring & prevention", icon: HeartPulse },
 ];
 
 const stories = [
@@ -405,25 +407,25 @@ function AppPromo() {
    Phone home — an app experience, not a squeezed landing page
    ========================================================================= */
 
-const mobileIntents = [
-  { title: "Symptoms", text: "Find the right care", to: "/symptoms", icon: Thermometer, tone: "#12a383" },
-  { title: "Book Doctor", text: "Consultation", to: "/doctors", icon: Stethoscope, tone: "#2a74ec" },
-  { title: "My Care Journey", text: "Track your treatment", to: "/care", icon: FolderHeart, tone: "#7c5cfc" },
-  { title: "Health Records", text: "Your medical info", to: "/records", icon: FileText, tone: "#ee7a24" },
+export const mobileIntents = [
+  { title: "Check a Symptom", text: "Find the right care", to: "/symptoms", icon: Thermometer, tone: "#12a383" },
+  { title: "Find a Specialist", text: "500+ experts", to: "/doctors", icon: Stethoscope, tone: "#2a74ec" },
+  { title: "Manage My Care", text: "Track your treatment", to: "/care", icon: FolderHeart, tone: "#7c5cfc" },
+  { title: "Access Health Records", text: "Reports & prescriptions", to: "/records", icon: FileText, tone: "#d96612" },
 ];
 
-const quickActions = [
+export const quickActions = [
   { label: "Emergency", to: "/emergency", icon: Ambulance, tone: "#c92f3c" },
   { label: "Nearby Hospitals", to: "/hospitals", icon: MapPin, tone: "#2a74ec" },
   { label: "Health Tips", to: "/health-library", icon: BookOpen, tone: "#12a383" },
   { label: "Medicines", to: "/records?tab=prescriptions", icon: Pill, tone: "#7c5cfc" },
 ];
 
-function MobileHome() {
+export function MobileHome() {
   const { signedIn, signIn, appointments, notifications } = useAppState();
   const { openSearch } = useGlobalSearch();
   const next = appointments.filter((a) => a.status === "upcoming").sort((a, b) => a.date.localeCompare(b.date))[0];
-  const metrics = healthMetrics.filter((m) => ["heart-rate", "blood-pressure", "steps"].includes(m.id));
+  const metrics = healthMetrics.filter((m) => m.id !== "spo2");
   const unread = notifications.filter((n) => !n.read).length;
 
   return (
@@ -450,6 +452,8 @@ function MobileHome() {
         <span className="min-w-0 truncate text-control">Search symptoms, doctors, specialties…</span>
       </button>
 
+      {signedIn && next && <NextAppointmentCard appointment={next} />}
+
       <section aria-labelledby="m-intents">
         <h2 id="m-intents" className="t-h3 mb-3">What brings you here today?</h2>
         <div className="grid grid-cols-2 gap-3">
@@ -467,20 +471,13 @@ function MobileHome() {
 
       {signedIn ? (
         <>
-          {next && (
-            <section aria-labelledby="m-next">
-              <SectionHeader id="m-next" as="h3" title="Upcoming appointment" action={{ label: "View all", to: "/appointments" }} className="mb-3" />
-              <AppointmentCard appointment={next} compact />
-            </section>
-          )}
-
           <section aria-labelledby="m-journey">
-            <SectionHeader id="m-journey" as="h3" title="My active care" action={{ label: "See all", to: "/care" }} className="mb-3" />
+            <SectionHeader id="m-journey" size="sm" title="My active care" action={{ label: "See all", to: "/care" }} className="mb-3" />
             <JourneyCard journey={careJourneys[0]} variant="compact" />
           </section>
 
           <section aria-labelledby="m-health">
-            <SectionHeader id="m-health" as="h3" title="Health overview" action={{ label: "Insights", to: "/insights" }} className="mb-3" />
+            <SectionHeader id="m-health" size="sm" title="Health overview" action={{ label: "Insights", to: "/insights" }} className="mb-3" />
             <div className="scrollbar-none -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-1" tabIndex={0} role="region" aria-label="Health metrics, scroll for more">
               {metrics.map((m) => (
                 <HealthMetricCard key={m.id} metric={m} compact className="w-40 shrink-0 snap-start" />
@@ -514,7 +511,7 @@ function MobileHome() {
       </section>
 
       <section aria-labelledby="m-spec">
-        <SectionHeader id="m-spec" as="h3" title="Explore specialties" action={{ label: "All", to: "/specialties" }} className="mb-3" />
+        <SectionHeader id="m-spec" size="sm" title="Explore specialties" action={{ label: "All", to: "/specialties" }} className="mb-3" />
         <div className="scrollbar-none -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-1">
           {specialties.map((s) => (
             <SpecialtyTile key={s.slug} specialty={s} className="w-28 shrink-0 snap-start px-2" />
@@ -523,7 +520,7 @@ function MobileHome() {
       </section>
 
       <section aria-labelledby="m-tip">
-        <SectionHeader id="m-tip" as="h3" title="Health tip for you" action={{ label: "Library", to: "/health-library" }} className="mb-3" />
+        <SectionHeader id="m-tip" size="sm" title="Health tip for you" action={{ label: "Library", to: "/health-library" }} className="mb-3" />
         <ArticleCard article={articles[1]} horizontal />
       </section>
 

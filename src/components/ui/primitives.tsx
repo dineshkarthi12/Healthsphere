@@ -32,7 +32,10 @@ export function SectionHeader({
   id,
   className,
   as: As = "h2",
+  size = "md",
 }: {
+  /** Visual size; "sm" renders an h2 at h3 size (compact app screens). */
+  size?: "sm" | "md";
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   eyebrow?: string;
@@ -45,7 +48,7 @@ export function SectionHeader({
     <div className={cn("mb-5 flex items-end justify-between gap-4 sm:mb-6", className)}>
       <div className="min-w-0">
         {eyebrow && <p className="t-eyebrow mb-2 text-primary-700">{eyebrow}</p>}
-        <As id={id} className={As === "h3" ? "t-h3" : "t-h2"}>
+        <As id={id} className={As === "h3" || size === "sm" ? "t-h3" : "t-h2"}>
           {title}
         </As>
         {subtitle && <p className="mt-1.5 max-w-2xl text-small text-ink-500 sm:text-body">{subtitle}</p>}

@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, Building2, CalendarDays, CalendarPlus, CheckCircle2, CreditCard, Home, Landmark, Lock, ShieldCheck, Smartphone, UserRound, Users, Video, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, ArrowRight, Building2, CalendarDays, CalendarPlus, CheckCircle2, CreditCard, Home, Landmark, Lock, ShieldCheck, Smartphone, UserRound, Users, Video, X } from "lucide-react";
 import { doctors, getDoctor } from "@/data/doctors";
 import { getHospital } from "@/data/hospitals";
 import { specialtyMap, toneStyle } from "@/data/specialties";
@@ -53,6 +53,7 @@ function BookingFlow() {
   const [step, setStep] = useState(pre ? (params.get("slot") ? 2 : 1) : 0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [paying, setPaying] = useState(false);
+  const [payError, setPayError] = useState("");
   const [booked, setBooked] = useState<Appointment | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const [d, setD] = useState<Draft>({
@@ -110,7 +111,14 @@ function BookingFlow() {
     if (!validate()) return;
     if (step === 4) {
       setPaying(true);
+      setPayError("");
       window.setTimeout(() => {
+        // Demo: a UPI ID containing "fail" simulates a declined payment.
+        if (d.payment === "upi" && d.upi.toLowerCase().includes("fail")) {
+          setPaying(false);
+          setPayError("Your payment didn't go through and you haven't been charged. Please try again or choose another payment method.");
+          return;
+        }
         const appt: Appointment = {
           id: `apt-${Math.floor(2000 + Math.random() * 7000)}`,
           doctorId: doctor!.id,
@@ -216,6 +224,15 @@ function BookingFlow() {
               )}
               {step === 4 && (
                 <div className="space-y-5">
+                  {payError && (
+                    <div role="alert" className="flex items-start gap-3 rounded-xl border border-danger-100 bg-danger-50 p-4">
+                      <AlertTriangle className="mt-0.5 size-5 shrink-0 text-danger-600" aria-hidden="true" />
+                      <div className="flex-1">
+                        <p className="font-semibold text-danger-700">Payment failed</p>
+                        <p className="mt-0.5 text-small text-ink-700">{payError}</p>
+                      </div>
+                    </div>
+                  )}
                   <fieldset>
                     <legend className="mb-2 text-small font-semibold text-ink-800">Payment method</legend>
                     <div className="grid gap-2 sm:grid-cols-2">
@@ -228,7 +245,7 @@ function BookingFlow() {
                       ))}
                     </div>
                   </fieldset>
-                  {d.payment === "upi" && <Field label="UPI ID" required error={errors.upi}>{(p) => <Input {...p} value={d.upi} onChange={(e) => set("upi", e.target.value)} />}</Field>}
+                  {d.payment === "upi" && <Field label="UPI ID" required error={errors.upi} hint="Demo: enter fail@upi to preview a failed payment.">{(p) => <Input {...p} value={d.upi} onChange={(e) => set("upi", e.target.value)} />}</Field>}
                   {d.payment === "card" && <p className="rounded-lg bg-subtle px-4 py-3 text-small text-ink-600">You'll enter card details on the secure payment page (demo — nothing is charged).</p>}
                   {d.payment === "insurance" && <p className="rounded-lg bg-subtle px-4 py-3 text-small text-ink-600">{currentPatient.insurance.provider} · Policy {currentPatient.insurance.policy}. Consultation fees may not be covered; the hospital will confirm.</p>}
                   <label className="flex items-start gap-3 rounded-xl bg-subtle p-3.5">
@@ -243,7 +260,16 @@ function BookingFlow() {
             </div>
 
             {step < 5 && (
-              <div className="safe-bottom fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-line bg-white p-3 md:static md:mt-8 md:border-0 md:p-0">
+              <div className="safe-bottom fixed inset-x-0 bottom-0 z-30 flex flex-wrap gap-2 border-t border-line bg-white p-3 md:static md:mt-8 md:flex-nowrap md:border-0 md:p-0">
+                {doctor && (
+                  <p className="flex w-full items-center justify-between gap-3 text-small md:hidden" aria-live="polite">
+                    <span className="min-w-0 truncate text-ink-600">
+                      <span className="font-semibold text-ink-900">{doctor.name}</span>
+                      {d.slot ? ` · ${formatDate(d.slot, { day: "numeric", month: "short" })}, ${formatTime(d.slot)}` : " · Pick a time"}
+                    </span>
+                    <span className="shrink-0 font-bold text-ink-900">{formatINR(fee + platform)}</span>
+                  </p>
+                )}
                 {step > 0 && (
                   <Button variant="outline" size="lg" onClick={() => go(step - 1)} className="hidden md:inline-flex">
                     <ArrowLeft className="size-4" aria-hidden="true" /> Back
@@ -280,7 +306,7 @@ function BookingFlow() {
           )}
         </div>
       </div>
-      <div className="h-20 md:hidden" aria-hidden="true" />
+      <div className="h-28 md:hidden" aria-hidden="true" />
     </div>
   );
 }

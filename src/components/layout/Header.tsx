@@ -169,7 +169,7 @@ function AccountMenu() {
   const { signOut } = useAppState();
   const navigate = useNavigate();
   const items = [
-    { to: "/", label: "My health home", icon: LayoutDashboard },
+    { to: "/dashboard", label: "My health home", icon: LayoutDashboard },
     { to: "/care", label: "My Care Journey", icon: FolderHeart },
     { to: "/appointments", label: "Appointments", icon: CalendarDays },
     { to: "/records", label: "Health records", icon: ClipboardList },

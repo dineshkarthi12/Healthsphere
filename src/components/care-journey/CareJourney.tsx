@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, CheckCircle2, ChevronDown, Circle, Clock, FileText, MapPin, Sparkles } from "lucide-react";
+import { ArrowRight, CalendarPlus, Check, CheckCircle2, ChevronDown, Circle, Clock, FileText, MapPin, MessageCircle, Sparkles } from "lucide-react";
 import type { CareJourney as Journey, JourneyStage, JourneyTemplateStage } from "@/types";
 import { getDoctor } from "@/data/doctors";
 import { getHospital } from "@/data/hospitals";
 import { specialtyMap, toneStyle } from "@/data/specialties";
 import { Avatar, IconTile, ProgressBar, ProgressRing, StatusBadge } from "@/components/ui/primitives";
-import { ButtonLink } from "@/components/ui/Button";
+import { Button, ButtonLink } from "@/components/ui/Button";
+import { useToast } from "@/components/ui/overlays";
 import { cn, formatDate, formatDateTime } from "@/lib/utils";
 
 /* ----------------------------------------------------------- stage node */
@@ -69,6 +70,8 @@ export function JourneyStepper({ stages, className, label }: { stages: (Pick<Jou
 export function JourneyCard({ journey, className, variant = "default" }: { journey: Journey; className?: string; variant?: "default" | "compact" }) {
   const spec = specialtyMap[journey.specialty];
   const doctor = getDoctor(journey.leadDoctorId);
+  const done = journey.stages.filter((s) => s.status === "completed").length;
+  const docs = journey.stages.reduce((n, s) => n + s.documents.length, 0);
   return (
     <article style={toneStyle(journey.specialty)} className={cn("card flex flex-col p-4 sm:p-5", className)} aria-labelledby={`jt-${journey.id}`}>
       <div className="flex items-start gap-3.5">
@@ -80,6 +83,10 @@ export function JourneyCard({ journey, className, variant = "default" }: { journ
         </div>
         <ProgressRing value={journey.progress} size={56} stroke={5} label={`${journey.title} progress`} />
       </div>
+      <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-caption font-medium text-ink-600">
+        <span className="inline-flex items-center gap-1"><CheckCircle2 className="size-3.5 text-success-700" aria-hidden="true" />{done} of {journey.stages.length} steps complete</span>
+        {docs > 0 && <span className="inline-flex items-center gap-1"><FileText className="size-3.5 text-ink-400" aria-hidden="true" />{docs} document{docs === 1 ? "" : "s"}</span>}
+      </p>
 
       {variant === "default" && <JourneyStepper stages={journey.stages} className="mt-5" label={`${journey.title} stages`} />}
       {variant === "compact" && <ProgressBar value={journey.progress} label={`${journey.title} progress`} className="mt-4" />}
@@ -90,8 +97,8 @@ export function JourneyCard({ journey, className, variant = "default" }: { journ
           <p className="text-small font-bold text-ink-900">{journey.nextStep}</p>
           {journey.nextStepDate && <p className="text-caption text-ink-600">{formatDateTime(journey.nextStepDate)}</p>}
         </div>
-        <ButtonLink to={`/care/journey/${journey.id}`} size="sm" variant="white" aria-label={`View details of ${journey.title}`}>
-          View Details <ArrowRight className="size-4" aria-hidden="true" />
+        <ButtonLink to={`/care/journey/${journey.id}`} size="sm" variant="white" aria-label={`View care journey: ${journey.title}`}>
+          View Care Journey <ArrowRight className="size-4" aria-hidden="true" />
         </ButtonLink>
       </div>
     </article>
@@ -100,6 +107,7 @@ export function JourneyCard({ journey, className, variant = "default" }: { journ
 
 /* ----------------------------------------------------- vertical timeline */
 export function JourneyTimeline({ journey }: { journey: Journey }) {
+  const { toast } = useToast();
   const currentIdx = journey.stages.findIndex((s) => s.status === "current");
   const [open, setOpen] = useState<Set<string>>(() => new Set(journey.stages.filter((s, i) => s.status === "current" || i === currentIdx + 1).map((s) => s.id)));
 
@@ -189,6 +197,17 @@ export function JourneyTimeline({ journey }: { journey: Journey }) {
                     <p className="flex items-start gap-2 rounded-lg bg-white px-3 py-2.5 text-small font-semibold text-ink-900 shadow-xs">
                       <Sparkles className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden="true" /> Next: {stage.nextStep}
                     </p>
+                  )}
+                  {stage.status === "current" && (
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <Button size="sm" variant="accent" onClick={() => toast({ title: "Added to your calendar", description: `${stage.title}${stage.date ? ` · ${formatDateTime(stage.date)}` : ""}` })}>
+                        <CalendarPlus className="size-4" aria-hidden="true" />Add to calendar
+                      </Button>
+                      <ButtonLink to="/appointments" size="sm" variant="outline">Reschedule</ButtonLink>
+                      <Button size="sm" variant="ghost" onClick={() => toast({ title: "Message sent to your care team", description: "Typical reply time: under 2 hours." })}>
+                        <MessageCircle className="size-4" aria-hidden="true" />Message care team
+                      </Button>
+                    </div>
                   )}
                 </div>
               )}

@@ -3,7 +3,7 @@ import { CalendarDays, FolderHeart, Home, ClipboardList, UserRound } from "lucid
 import { cn } from "@/lib/utils";
 
 const items = [
-  { to: "/", label: "Home", icon: Home, match: (p: string) => p === "/" },
+  { to: "/", label: "Home", icon: Home, match: (p: string) => p === "/" || p === "/dashboard" },
   { to: "/care", label: "Care", icon: FolderHeart, match: (p: string) => p.startsWith("/care") || p.startsWith("/specialties") || p.startsWith("/symptoms") },
   { to: "/appointments", label: "Appointments", icon: CalendarDays, match: (p: string) => p.startsWith("/appointments") || p.startsWith("/doctors") },
   { to: "/records", label: "Records", icon: ClipboardList, match: (p: string) => p.startsWith("/records") || p.startsWith("/insights") },

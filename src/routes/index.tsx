@@ -44,6 +44,7 @@ export const router = createBrowserRouter([
       { path: "/login", element: page(publicPages, "LoginPage") },
       { path: "/signup", element: page(publicPages, "SignupPage") },
 
+      { path: "/dashboard", element: page(() => import("@/pages/patient/dashboard"), "DashboardPage") },
       { path: "/appointments", element: page(patientPages, "AppointmentsPage") },
       { path: "/appointments/book", element: page(booking, "BookingPage") },
       { path: "/care", element: page(careDetail, "CarePage") },

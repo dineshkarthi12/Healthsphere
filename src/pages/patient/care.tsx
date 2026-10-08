@@ -17,6 +17,7 @@ import {
   Wind,
   Eye,
   PersonStanding,
+  FolderHeart,
 } from "lucide-react";
 import { careJourneys, getJourney } from "@/data/journeys";
 import { specialties, specialtyMap, toneStyle } from "@/data/specialties";
@@ -27,7 +28,7 @@ import { JourneyCard, JourneyTimeline } from "@/components/care-journey/CareJour
 import { SpecialtyTile } from "@/components/specialties/SpecialtyCard";
 import { AppointmentCard } from "@/components/appointments/AppointmentCard";
 import { RequireSession } from "@/components/layout/RequireSession";
-import { Avatar, IconTile, ProgressRing, SectionHeader, StatusBadge } from "@/components/ui/primitives";
+import { Avatar, EmptyState, IconTile, ProgressRing, SectionHeader, StatusBadge } from "@/components/ui/primitives";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { useToast } from "@/components/ui/overlays";
 import { useAppState } from "@/lib/store";
@@ -96,9 +97,13 @@ export function CarePage() {
                 <div><p className="text-stat leading-none font-bold">9</p><p className="text-small text-ink-500">Documents in your journeys</p></div>
               </div>
             </div>
-            <div className="grid gap-4 lg:grid-cols-2">
-              {active.map((j, i) => <JourneyCard key={j.id} journey={j} variant={i < 2 ? "default" : "compact"} />)}
-            </div>
+            {active.length ? (
+              <div className="grid gap-4 lg:grid-cols-2">
+                {active.map((j, i) => <JourneyCard key={j.id} journey={j} variant={i < 2 ? "default" : "compact"} />)}
+              </div>
+            ) : (
+              <EmptyState icon={FolderHeart} title="No active care journeys yet" description="When you start treatment, every step — tests, results, procedures and follow-ups — appears here in one timeline." action={<ButtonLink to="/symptoms">Find my care</ButtonLink>} />
+            )}
           </>
         ) : (
           <div className="card flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center">
