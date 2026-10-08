@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { Outlet, ScrollRestoration, useLocation } from "react-router-dom";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
@@ -23,8 +23,12 @@ export function AppLayout() {
   const { pathname } = useLocation();
   const isImmersive = immersive.some((p) => pathname.startsWith(p));
 
+  const prevPath = useRef(pathname);
   useEffect(() => {
-    // Move focus to main content on route change for screen-reader users.
+    // Move focus to main content on route change (not first load, so the
+    // skip link stays the first tab stop).
+    if (prevPath.current === pathname) return;
+    prevPath.current = pathname;
     const main = document.getElementById("main");
     main?.focus({ preventScroll: true });
   }, [pathname]);

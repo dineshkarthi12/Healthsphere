@@ -37,14 +37,14 @@ export function useSearchResults(query: string, limitPerGroup = 4): Result[] {
       if (sc) out.push({ id: `sym-${s.id}`, group: "Symptoms", title: s.label, subtitle: `Care pathway · ${specialties.find((x) => x.slug === s.specialty)?.name}`, to: `/symptoms?s=${s.id}`, icon: <Thermometer className="size-4.5" />, s: sc });
     }
     for (const s of specialties) {
-      const sc = Math.max(score(s.name, q), ...s.conditions.map((c) => score(c.name, q)), ...s.specialistTitles.map((t) => score(t, q)));
+      const sc = Math.max(score(s.name, q), ...s.conditions.map((c) => score(c.name, q)), ...s.services.map((x) => score(x.name, q)), ...s.specialistTitles.map((t) => score(t, q)));
       if (sc) {
         const Icon = getIcon(s.icon);
         out.push({ id: `sp-${s.slug}`, group: "Specialties", title: s.name, subtitle: s.conditions.slice(0, 3).map((c) => c.name).join(" · "), to: `/specialties/${s.slug}`, icon: <span style={toneStyle(s.slug)} className="text-accent"><Icon className="size-4.5" /></span>, s: sc + 1 });
       }
     }
     for (const d of doctors) {
-      const sc = Math.max(score(d.name.replace("Dr. ", ""), q), score(d.title, q), score(d.subSpecialty, q));
+      const sc = Math.max(score(d.name.replace("Dr. ", ""), q), score(d.title, q), score(d.subSpecialty, q), ...d.specializations.map((x) => score(x, q)));
       if (sc) out.push({ id: `d-${d.id}`, group: "Doctors", title: d.name, subtitle: `${d.title} · ${d.subSpecialty}`, to: `/doctors/${d.id}`, icon: <Stethoscope className="size-4.5" />, s: sc });
     }
     for (const h of hospitals) {

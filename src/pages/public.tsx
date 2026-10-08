@@ -528,7 +528,7 @@ export function NotFoundPage() {
   useDocumentTitle("Page not found");
   return (
     <div className="container-page py-16">
-      <EmptyState icon={Stethoscope} title="We couldn't find that page" description="The link may be broken or the page may have moved." action={<div className="flex flex-wrap justify-center gap-2"><ButtonLink to="/">Go home</ButtonLink><ButtonLink to="/symptoms" variant="outline">Find my care</ButtonLink></div>} />
+      <EmptyState headingLevel="h1" icon={Stethoscope} title="We couldn't find that page" description="The link may be broken or the page may have moved." action={<div className="flex flex-wrap justify-center gap-2"><ButtonLink to="/">Go home</ButtonLink><ButtonLink to="/symptoms" variant="outline">Find my care</ButtonLink></div>} />
     </div>
   );
 }

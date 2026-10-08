@@ -46,6 +46,9 @@ FLATTEN = {
     "heart-care-specialty": ((244, 248, 252), (250, 252, 255)),
 }
 
+# Portraits only ever shown as avatars — skip the full-size exports.
+AVATAR_ONLY = {"doctor-female-portrait", "doctor-male-portrait"}
+
 # Portraits that get square avatar crops (alpha kept).
 AVATARS = {"doctor-profile-female", "doctor-profile-male", "doctor-female-portrait", "doctor-male-portrait"}
 
@@ -161,7 +164,8 @@ def main():
             img = remove_checkerboard(img, flatten_target=name in FLATTEN)
         if name in FLATTEN and img.mode == "RGBA":
             img = flatten(img, *FLATTEN[name])
-        save(img, name)
+        if name not in AVATAR_ONLY:
+            save(img, name)
         if name in AVATARS:
             save(avatar(img), f"{name}-avatar", widths=(160, 320))
         print("✓", name, img.mode)

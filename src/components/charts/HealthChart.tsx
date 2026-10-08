@@ -70,7 +70,9 @@ function Legend({ series }: { series: Series[] }) {
 
 function DataTable({ labels, series, format, title }: { labels: string[]; series: Series[]; format: (v: number) => string; title: string }) {
   return (
-    <table className="sr-only">
+    // Tables ignore overflow clipping, so the visually hidden wrapper is a div.
+    <div className="sr-only">
+    <table>
       <caption>{title}</caption>
       <thead>
         <tr>
@@ -87,6 +89,7 @@ function DataTable({ labels, series, format, title }: { labels: string[]; series
         ))}
       </tbody>
     </table>
+    </div>
   );
 }
 

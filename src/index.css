@@ -89,7 +89,7 @@
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --animate-fade-up: fade-up 0.45s var(--ease-out) both;
+  --animate-fade-up: fade-up 0.45s var(--ease-out) backwards; /* backwards: no lingering transform, so fixed children stay viewport-fixed */
   --animate-fade-in: fade-in 0.3s ease-out both;
   --animate-sheet-up: sheet-up 0.32s var(--ease-out) both;
   --animate-scale-in: scale-in 0.22s var(--ease-out) both;

@@ -294,7 +294,7 @@ function StepDoctor({ specialty, hospitalId, value, onChange, error }: { special
       {specialty && <p className="mb-3 text-small text-ink-600">Showing <strong className="text-accent">{specialtyMap[specialty].name}</strong> specialists · <Link to="/appointments/book" className="font-semibold text-primary-700 underline">show all</Link></p>}
       <SearchBar value={q} onChange={setQ} placeholder="Search doctors…" label="Search doctors" />
       {error && <p role="alert" className="mt-3 text-small font-medium text-danger-700">{error}</p>}
-      <div role="radiogroup" aria-label="Doctors" className="mt-4 grid gap-2">
+      <div role="radiogroup" aria-label="Doctors" className="mt-4 grid grid-cols-1 gap-2">
         {list.map((x) => (
           <label key={x.id} style={toneStyle(x.specialty)} className={cn("flex cursor-pointer items-center gap-3 rounded-xl border p-3", value === x.id ? "border-primary-600 bg-primary-25 ring-2 ring-primary-600/15" : "border-line hover:border-line-strong")}>
             <input type="radio" name="doctor" checked={value === x.id} onChange={() => onChange(x.id)} className="size-4.5 accent-primary-600" />

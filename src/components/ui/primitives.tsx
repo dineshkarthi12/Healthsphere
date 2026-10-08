@@ -399,7 +399,9 @@ export function EmptyState({
   description,
   action,
   className,
+  headingLevel = "h3",
 }: {
+  headingLevel?: "h1" | "h2" | "h3";
   icon?: LucideIcon;
   title: string;
   description?: string;
@@ -411,7 +413,10 @@ export function EmptyState({
       <span className="mb-4 inline-flex size-14 items-center justify-center rounded-2xl bg-primary-50 text-primary-600">
         <Icon className="size-6.5" aria-hidden="true" />
       </span>
-      <h3 className="t-h3">{title}</h3>
+      {(() => {
+        const H = headingLevel;
+        return <H className="t-h3">{title}</H>;
+      })()}
       {description && <p className="mt-1.5 max-w-sm text-small text-ink-500">{description}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>
